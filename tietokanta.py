@@ -9,34 +9,38 @@ yhteys = mysql.connector.connect(
     autocommit=True
 )
 
-def etsiMaanLentokentat(maa):
+def haePelaajanTiedot(pelaajanId):
+    #haetut pelaajan arvot ovat järjestykseesä
+    #id, co2_consumed, co2_budget, location, screen_name, time
+    sql = f'SELECT * FROM game WHERE id = "{pelaajanId}"'
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()[0]
+    return tulos
+
+def haeMaanLentokentat(maa):
     sql = f'SELECT name FROM airport WHERE ((type = "small_airport") OR (type = "medium_airport") OR (type = "large_airport")) AND iso_country = "{maa}"'
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
     return tulos
 
-def paivitaPelaajanSijainti(kentanident):
-    sql = f'UPDATE game SET location = "{kentanident}" WHERE id = "1";'
+'''def paivitaPelaajanSijainti(pelaajanId, kentanIdent):
+    sql = f'UPDATE game SET location = "{kentanIdent}" WHERE id = "{pelaajanId}";'
     kursori = yhteys.cursor()
     kursori.execute(sql)
-    pass
+    pass'''
 
-def paivitaPelaajanCo2(co2):
-    sql = f'SELECT co2_consumed FROM game WHERE id = "1";'
+def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
+    #mahdollisia päivityksiä pelaajan tietoihin ovat
+    #id, co2_consumed, co2_budget, location, screen_name, time
+    sql = f'UPDATE game SET {paivitettavaTieto} = "{tiedonArvo}" WHERE id = "{pelaajanId}";'
     kursori = yhteys.cursor()
     kursori.execute(sql)
-    tulos = kursori.fetchall()[0][0]
-    tulos += co2
-    
-    sql = f'UPDATE game SET co2_consumed = "{tulos}" WHERE id = "1";'
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    
-    print(tulos)
     pass
 
 #lentokentta = etsiMaanLentokentat("KP")
 #print(lentokentta)
 #paivitaPelaajanCo2(-160)
 #paivitaPelaajanSijainti("EFHK")
+print(haePelaajanTiedot(1))
