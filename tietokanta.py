@@ -57,8 +57,8 @@ def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
     pass
 
 
-print(haePelaajanTiedot(1))
-print(haeMaanTiedot("name", "iso_country", "FI"))
-print(haeMaanLentokentat("US"))
-print(haeLentokentanTiedot("name, type, municipality", "ident", "EFHK"))
-print(haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", "EFHK"))
+#print(haePelaajanTiedot(1))
+#print(haeMaanTiedot("name", "iso_country", "FI"))
+#print(haeMaanLentokentat("US"))
+#print(haeLentokentanTiedot("name, type, municipality", "ident", "EFHK"))
+#print(haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", "EFHK"))
