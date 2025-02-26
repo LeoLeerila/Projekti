@@ -22,7 +22,14 @@ def haeMaanLentokentat(maa):
     sql = f'SELECT name FROM airport WHERE ((type = "small_airport") OR (type = "medium_airport") OR (type = "large_airport")) AND iso_country = "{maa}"'
     kursori = yhteys.cursor()
     kursori.execute(sql)
-    tulos = kursori.fetchall()
+    tulos = kursori.fetchall()[0]
+    return tulos
+
+def haeLentokentanSijainti(lentokentanIdent):
+    sql = f'SELECT latitude_deg, longitude_deg FROM airport WHERE ident = "{lentokentanIdent}"'
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()[0]
     return tulos
 
 '''def paivitaPelaajanSijainti(pelaajanId, kentanIdent):
@@ -43,4 +50,4 @@ def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
 #print(lentokentta)
 #paivitaPelaajanCo2(-160)
 #paivitaPelaajanSijainti("EFHK")
-print(haePelaajanTiedot(1))
+print(haeLentokentanSijainti("EFHK"))
