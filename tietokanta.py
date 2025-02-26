@@ -18,6 +18,16 @@ def haePelaajanTiedot(pelaajanId):
     tulos = kursori.fetchall()[0]
     return tulos
 
+def haeMaanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
+    #hae maan tiedot
+    #mahdollisia haettavaTieto ja rajausTieto arvoja ovat
+    #iso_country, name, continent, wikipedia_link, keywords
+    sql = f'SELECT {haettavaTieto} FROM country WHERE {rajausTieto} = {rajausTiedonArvo}'
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()[0]
+    return tulos
+
 def haeMaanLentokentat(maa):
     sql = f'SELECT name FROM airport WHERE ((type = "small_airport") OR (type = "medium_airport") OR (type = "large_airport")) AND iso_country = "{maa}"'
     kursori = yhteys.cursor()
@@ -50,4 +60,5 @@ def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
 #print(lentokentta)
 #paivitaPelaajanCo2(-160)
 #paivitaPelaajanSijainti("EFHK")
-print(haeLentokentanSijainti("EFHK"))
+#print(haeLentokentanSijainti("EFHK"))
+print(haeMaanTiedot("name", ""))
