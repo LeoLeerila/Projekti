@@ -1,7 +1,5 @@
 import mysql.connector
 from geopy import distance
-from lentokone import nopeus, co2
-
 
 yhteys = mysql.connector.connect(
     host='localhost',
@@ -69,8 +67,8 @@ def laskeLennonPituus(lahtosijainti, maanosa):
     for maa in maat:
         #lasketaan matkan pituus ja co2 päästöt
         matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "iso_country", maa[0])).km
-        kesto = matkanpituus / nopeus
-        co2Lennolta = co2 * kesto
+        from lentokone import co2
+        co2Lennolta = co2 * matkanpituus
         #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
         tulos.append({
             "maa": maa[0], 
@@ -90,4 +88,3 @@ def laskeLennonPituus(lahtosijainti, maanosa):
     asa = haeMaanTiedot("name", "iso_country", asda[0])[0][0]
     print(asda)
     print(asa)'''
-print(laskeLennonPituus((53.2400016784668, 50.375), "EU"))
