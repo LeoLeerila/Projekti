@@ -58,14 +58,6 @@ def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
     kursori.execute(sql)
     pass
 
-
-#print(haePelaajanTiedot(1))
-#print(haeMaanTiedot("name", "iso_country", "FI"))
-#print(haeMaanLentokentat("US"))
-#print(haeLentokentanTiedot("name, type, municipality", "ident", "EFHK"))
-#print(haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", "EFHK"))
-
-
 def laskeLennonPituus(lahtosijainti, maanosa):
     #haetaan kaikki maanosan maat
     maat = haeMaanTiedot("iso_country", "continent", maanosa)
@@ -82,7 +74,11 @@ def laskeLennonPituus(lahtosijainti, maanosa):
     return tulos
 
 
-
+#print(haePelaajanTiedot(1))
+#print(haeMaanTiedot("name", "iso_country", "FI"))
+#print(haeMaanLentokentat("US"))
+#print(haeLentokentanTiedot("name, type, municipality", "ident", "EFHK"))
+#print(haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", "EFHK"))
 '''for asda in laskeLennonPituus((53.2400016784668, 50.375), "EU"):
     asa = haeMaanTiedot("name", "iso_country", asda[0])[0][0]
     print(asda)
