@@ -23,4 +23,5 @@ def tehava(randomLuku):
         if kysy == 5:
             print("oikein")
 
+
 tehava(randomLuku)
