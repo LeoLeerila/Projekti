@@ -12,6 +12,8 @@ yhteys = mysql.connector.connect(
 )
 kursori = yhteys.cursor()
 
+
+
 def haePelaajanTiedot(pelaajanId):
     #haetut pelaajan arvot ovat järjestykseesä
     #id, co2_consumed, co2_budget, location, screen_name, time
@@ -69,7 +71,11 @@ def laskeLennonPituus(lahtosijainti, maanosa):
         kesto = matkanpituus / 933
         co2Lennolta = 8 * kesto
         #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
-        tulos.append([maa[0], matkanpituus, co2Lennolta])
+        tulos.append({
+            "maa": maa[0], 
+            "matkanpituus": matkanpituus, 
+            "co2Lennolta": co2Lennolta
+            })
 
     return tulos
 
@@ -83,3 +89,4 @@ def laskeLennonPituus(lahtosijainti, maanosa):
     asa = haeMaanTiedot("name", "iso_country", asda[0])[0][0]
     print(asda)
     print(asa)'''
+print(laskeLennonPituus((53.2400016784668, 50.375), "EU"))
