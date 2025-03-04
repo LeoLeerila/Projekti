@@ -20,6 +20,3 @@ def lenna(maaranpaa, sijainti, paivitaPelaaja):
         paivitaPelaajanTiedot(1, "co2_consumed", co2Lennolta)
     print(f"matkan pituus: {matkanpituus} km, joka kestää: {kesto} tuntia")
     pass
-
-#testaus
-#lenna("EFHK", "CKQ8", 0)
