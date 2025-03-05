@@ -46,10 +46,20 @@ def haeLentokentanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
     tulos = kursori.fetchall()[0]
     return tulos
 
-def annakysymys():
+def annakysymys(kysymysRajaus):
     #haetaan kysymyksiä tietokannasta
     #kysymysnumero, kysymys_vaihtoehdot, vastaus_vaihtoehdot, vastaukset
-    sql = f'SELECT vastaus_vaihtoehdot FROM tehtavat WHERE kysymysnumero = "{1}"'
+    sql = f'SELECT kysymys_vaihtoehdo FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
+    sql1 = f'SELECT vastaus_vaihtoehdot FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"
+    kursori.execute(sql)
+    kursori.execute(sql1)
+    tulos = kursori.fetchall()
+    return tulos
+
+def annavastaus(kysymysRajaus):
+    #haetaan vastauksia tietokannasta
+    #vastaukset
+    sql = f'SELECT vastaus_vaihtoehto FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()
     return tulos
