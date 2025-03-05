@@ -46,6 +46,14 @@ def haeLentokentanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
     tulos = kursori.fetchall()[0]
     return tulos
 
+def annakysymys():
+    #haetaan kysymyksiä tietokannasta
+    #kysymysnumero, kysymys_vaihtoehdot, vastaus_vaihtoehdot, vastaukset
+    sql = f'SELECT vastaus_vaihtoehdot FROM tehtavat WHERE kysymysnumero = "{1}"'
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos
+
 '''def paivitaPelaajanSijainti(pelaajanId, kentanIdent):
     sql = f'UPDATE game SET location = "{kentanIdent}" WHERE id = "{pelaajanId}";'
     kursori = yhteys.cursor()
