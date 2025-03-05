@@ -9,7 +9,6 @@ yhteys = mysql.connector.connect(
     autocommit=True
 )
 kursori = yhteys.cursor()
-
 def annakysymys():
     sql = f'SELECT * FROM tehtavat WHERE kysymysnumero = "{1}"'
     kursori.execute(sql)
