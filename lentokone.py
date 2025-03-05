@@ -6,7 +6,7 @@ nopeus = 933
 #co_2 päästöt kg
 co2 = 0.115
 
-def lenna(maaranpaa, sijainti, paivitaPelaaja):
+def lenna(maaranpaa, sijainti, paivitaPelaaja, pelaajanID):
     #haetaan sijainnin ja määränpään koordinaatit
     maaranpaaKoordinaatit = haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", maaranpaa)
     sijaintiKoordinaatit = haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", sijainti)
@@ -16,8 +16,8 @@ def lenna(maaranpaa, sijainti, paivitaPelaaja):
     co2Lennolta = co2 * kesto
     if paivitaPelaaja == 1:
         #päivitetään tietokaanta
-        paivitaPelaajanTiedot(1, "location", maaranpaa)
-        paivitaPelaajanTiedot(1, "co2_consumed", co2Lennolta)
+        paivitaPelaajanTiedot(pelaajanID, "location", maaranpaa)
+        paivitaPelaajanTiedot(pelaajanID, "co2_consumed", co2Lennolta)
     print(f"matkan pituus: {matkanpituus} km, joka kestää: {kesto} tuntia")
     pass
 
