@@ -3,8 +3,8 @@ from tietokanta import paivitaPelaajanTiedot, haeLentokentanTiedot, haeMaanTiedo
 
 #lentokoneen nopeus km/h
 nopeus = 933
-#co_2 päästöt
-co2 = 8
+#co_2 päästöt kg
+co2 = 0.115
 
 def lenna(maaranpaa, sijainti, paivitaPelaaja):
     #haetaan sijainnin ja määränpään koordinaatit
