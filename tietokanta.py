@@ -1,4 +1,5 @@
 import mysql.connector
+import geopy
 from geopy import distance
 
 yhteys = mysql.connector.connect(
@@ -49,17 +50,19 @@ def haeLentokentanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
 def annakysymys(kysymysRajaus):
     #haetaan kysymyksiä tietokannasta
     #kysymysnumero, kysymys_vaihtoehdot, vastaus_vaihtoehdot, vastaukset
-    sql = f'SELECT kysymys_vaihtoehdo FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
-    sql1 = f'SELECT vastaus_vaihtoehdot FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"
+    sql = f'SELECT kysymys_vaihtoehdot FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
+    sql1 = f'SELECT vastaus_vaihtoehdot FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
     kursori.execute(sql)
-    kursori.execute(sql1)
     tulos = kursori.fetchall()
-    return tulos
+    kursori.execute(sql1)
+    tulos1 = kursori.fetchall()
+    print(tulos)
+    print(tulos1)
 
 def annavastaus(kysymysRajaus):
     #haetaan vastauksia tietokannasta
     #vastaukset
-    sql = f'SELECT vastaus_vaihtoehto FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
+    sql = f'SELECT vastaukset FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()
     return tulos
