@@ -59,22 +59,5 @@ def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
     kursori.execute(sql)
     pass
 
-def laskeLennonPituus(lahtosijainti, maanosa):
-    #haetaan kaikki maanosan maat
-    maat = haeMaanTiedot("iso_country", "continent", maanosa)
-    tulos = []
 
-    for maa in maat:
-        #lasketaan matkan pituus ja co2 päästöt
-        matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "iso_country", maa[0])).km
-        from lentokone import co2
-        co2Lennolta = co2 * matkanpituus
-        #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
-        tulos.append({
-            "maa": maa[0], 
-            "matkanpituus": matkanpituus, 
-            "co2Lennolta": co2Lennolta
-            })
-
-    return tulos
 

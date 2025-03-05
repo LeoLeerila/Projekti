@@ -1,5 +1,5 @@
 from geopy import distance
-from tietokanta import paivitaPelaajanTiedot, haeLentokentanTiedot
+from tietokanta import paivitaPelaajanTiedot, haeLentokentanTiedot, haeMaanTiedot
 
 #lentokoneen nopeus km/h
 nopeus = 933
@@ -20,3 +20,21 @@ def lenna(maaranpaa, sijainti, paivitaPelaaja):
         paivitaPelaajanTiedot(1, "co2_consumed", co2Lennolta)
     print(f"matkan pituus: {matkanpituus} km, joka kestää: {kesto} tuntia")
     pass
+
+def laskeLennonPituus(lahtosijainti, maanosa):
+    #haetaan kaikki maanosan maat
+    maat = haeMaanTiedot("iso_country", "continent", maanosa)
+    tulos = []
+
+    for maa in maat:
+        #lasketaan matkan pituus ja co2 päästöt
+        matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "iso_country", maa[0])).km
+        co2Lennolta = co2 * matkanpituus
+        #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
+        tulos.append({
+            "maa": maa[0], 
+            "matkanpituus": matkanpituus, 
+            "co2Lennolta": co2Lennolta
+            })
+
+    return tulos
