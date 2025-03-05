@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS `tehtavat`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tehtavat`
-  `kysymysnumero` int(20) NOT NULL,
+  `kysymysnumero` int(8) NOT NULL,
   `kysymys_vaihtoehdot` varchar(40) NOT NULL,
   `vastaus_vaihtoehdot` varchar(40) DEFAULT NULL,
   `vastaukset` varchar(40) DEFAULT NULL,
