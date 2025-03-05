@@ -16,7 +16,6 @@ CREATE TABLE `tehtavat`
 --
 -- Dumping data for table `game`
 --
-
 LOCK TABLES `tehtavat` WRITE;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
 INSERT INTO `tehtavat` VALUES ('1', 'miksi matkaan thaimaaseen?', 'uuden vaimon takia, äijien bilereissun takia,', 'kauniin kulttuurin takia', 'kauniin kulttuurin takia');
