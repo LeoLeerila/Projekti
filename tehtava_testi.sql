@@ -19,7 +19,6 @@ CREATE TABLE `tehtavat`
 
 LOCK TABLES `tehtavat` WRITE;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
-INSERT INTO `tehtavat` VALUES ('1', 'miksi matkaan thaimaaseen?', 'uuden vaimon takia, äijien bilereissun takia,' ||
-                                                                  'kauniin kulttuurin takia', 'kauniin kulttuurin takia');
+INSERT INTO `tehtavat` VALUES ('1', 'miksi matkaan thaimaaseen?', 'uuden vaimon takia, äijien bilereissun takia,', 'kauniin kulttuurin takia', 'kauniin kulttuurin takia');
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 UNLOCK TABLES;
