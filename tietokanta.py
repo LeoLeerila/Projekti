@@ -1,7 +1,6 @@
 import mysql.connector
 from geopy import distance
 
-
 yhteys = mysql.connector.connect(
     host='localhost',
     port= 3306,
@@ -11,6 +10,8 @@ yhteys = mysql.connector.connect(
     autocommit=True
 )
 kursori = yhteys.cursor()
+
+
 
 def haePelaajanTiedot(pelaajanId):
     #haetut pelaajan arvot ovat järjestykseesä
@@ -58,28 +59,5 @@ def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
     kursori.execute(sql)
     pass
 
-def laskeLennonPituus(lahtosijainti, maanosa):
-    #haetaan kaikki maanosan maat
-    maat = haeMaanTiedot("iso_country", "continent", maanosa)
-    tulos = []
-
-    for maa in maat:
-        #lasketaan matkan pituus ja co2 päästöt
-        matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "iso_country", maa[0])).km
-        kesto = matkanpituus / 933
-        co2Lennolta = 8 * kesto
-        #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
-        tulos.append([maa[0], matkanpituus, co2Lennolta])
-
-    return tulos
 
 
-#print(haePelaajanTiedot(1))
-#print(haeMaanTiedot("name", "iso_country", "FI"))
-#print(haeMaanLentokentat("US"))
-#print(haeLentokentanTiedot("name, type, municipality", "ident", "EFHK"))
-#print(haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", "EFHK"))
-'''for asda in laskeLennonPituus((53.2400016784668, 50.375), "EU"):
-    asa = haeMaanTiedot("name", "iso_country", asda[0])[0][0]
-    print(asda)
-    print(asa)'''

@@ -1,8 +1,12 @@
 from tietokanta import haePelaajanTiedot
 
-pelaajanTiedot = []
-for tieto in haePelaajanTiedot(1):
-    pelaajanTiedot.append(tieto)
-#pelaajan tiedot ovat järjestyksessä
+pelaajanTiedot = haePelaajanTiedot(1)
 #id, co2_consumed, co2_budget, location, screen_name, time
-
+pelaajanTiedot = {
+    "id": pelaajanTiedot[0],
+    "co2_consumed": pelaajanTiedot[1],
+    "co2_budget": pelaajanTiedot[2],
+    "location": pelaajanTiedot[3],
+    "screen_name": pelaajanTiedot[4],
+    "time": pelaajanTiedot[5],
+}
