@@ -43,7 +43,7 @@ def valitseSeuraavaLentokentta(location):
   # Print the selected answer
   print("You selected:", answers["maa"][0])
 
-  print(lenna(answers["maa"][0], haePelaajanTiedot(1)["location"], 1, 1))
+  lento = lenna(answers["maa"][0], haePelaajanTiedot(1)["location"], 1, 1)
 
   return answers["maa"][0]
 
