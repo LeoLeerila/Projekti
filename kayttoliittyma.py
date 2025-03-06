@@ -3,7 +3,7 @@ from tietokanta import haeMaanTiedot, haePelaajanTiedot
 from lentokone import laskeLennonPituus
 import chalk
 
-def lentokentat():
+def lentokentat(lahtoSijainti):
   pelaajanTiedot = haePelaajanTiedot(1)
   #id, co2_consumed, co2_budget, location, screen_name, time, km_total
   pelaajanTiedot = {
@@ -15,20 +15,23 @@ def lentokentat():
       "time": pelaajanTiedot[5],
       "km_total": pelaajanTiedot[6]
   }
-  print(pelaajanTiedot)
-
-   
-
-def valitseSeuraavaLentokentta(location):
   # Get the list of airports
-  lentokentat = laskeLennonPituus(location, "*")
+  lentokentat = laskeLennonPituus(lahtoSijainti, "*")
+
+  print(pelaajanTiedot["co2_budget"])
 
   maat = []
   for lentokentta in lentokentat:
       maa_tiedot = haeMaanTiedot("name", "iso_country", lentokentta["maa"])
       if maa_tiedot and len(maa_tiedot[0]) > 0:  # Ensure data exists
-          maat.append(f"{maa_tiedot[0][0]} {chalk.red(f"-{round(lentokentta["co2Lennolta"], 2)} kg CO₂")}")  # Extract the first name
+          if round(lentokentta["co2Lennolta"], 2) <= pelaajanTiedot["co2_budget"]:
+            maat.append(f"{maa_tiedot[0][0]} {chalk.red(f"-{round(lentokentta["co2Lennolta"], 2)} kg CO₂")}")  # Extract the first name
+  return maat
+   
 
+def valitseSeuraavaLentokentta(location):
+
+  maat = lentokentat(location)
   # Create the question with dynamic choices
   questions = [
       inquirer.List('maa',
