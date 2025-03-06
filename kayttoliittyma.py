@@ -19,7 +19,8 @@ def lentokentat(lahtoSijainti):
 
 def valitseSeuraavaLentokentta(location):
   pelaajanTiedot = haePelaajanTiedot(1)
-  print(haePelaajanNykyinenMaa(pelaajanTiedot["location"]))
+  print("You are in", chalk.green(haePelaajanNykyinenMaa(pelaajanTiedot["location"])))
+  print("You can still emit a total of", pelaajanTiedot["co2_budget"]-pelaajanTiedot["co2_consumed"], "kg CO₂")
 
   maat = lentokentat(location)
   # Create the question with dynamic choices
