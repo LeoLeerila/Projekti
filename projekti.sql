@@ -108,6 +108,7 @@ CREATE TABLE `game` (
   `location` varchar(10) DEFAULT NULL,
   `screen_name` varchar(40) DEFAULT NULL,
   `time` int(8) DEFAULT NULL,
+  `km_total` int(8) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `location` (`location`),
   CONSTRAINT `game_ibfk_1` FOREIGN KEY (`location`) REFERENCES `airport` (`ident`)
@@ -120,6 +121,50 @@ CREATE TABLE `game` (
 
 LOCK TABLES `game` WRITE;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
-INSERT INTO `game` VALUES ('1',0,10000,'EFHK','PLAYER',0);
+INSERT INTO `game` VALUES ('1',0,10000,'EFHK','PLAYER',0,0);
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
+UNLOCK TABLES;
+
+-- Table structure for table `tehtavat`
+--
+
+DROP TABLE IF EXISTS `tehtavat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tehtavat` (
+  `kysymysnumero` int(8) NOT NULL,
+  `kysymys_vaihtoehdot` varchar(40) NOT NULL,
+  `vastaus_vaihtoehto1` varchar(400) DEFAULT NULL,
+  `vastaus_vaihtoehto2` varchar(400) DEFAULT NULL,
+  `vastaus_vaihtoehto3` varchar(400) DEFAULT NULL,
+  `vastaukset` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tehtavat`
+--
+LOCK TABLES `tehtavat` WRITE;
+/*!40000 ALTER TABLE `tehtavat` DISABLE KEYS */;
+INSERT INTO `tehtavat` VALUES ('1', 'miksi matkaan thaimaaseen?', 'uuden vaimon takia', 'äijien bilereissun takia', 'kauniin kulttuurin takia', 'kauniin kulttuurin takia'),
+('2', 'mikä on thaimaan pääkaupunki?', 'bangdik', 'bangpusi', 'bangkok', 'bangkok'),
+('3', 'Mikä on Afrikan suurin maa pinta-alaltaan?', 'Sudan', 'Algeria', 'Etelä-Afrikka', 'Algeria'),
+('4', 'Mikä on Euroopan pisin joki?', 'Tonava', 'Volga', 'Rein', 'Volga'),
+('5', 'Mikä on maailman korkein vuori?', 'Kilimanjaro', 'K2', 'Mount Everest', 'Mount Everest'),
+('6', 'Minkä maan pääkaupunki on Ottawa?', 'USA', 'Kanada', 'Australia', 'Kanada'),
+('7', 'Missä maassa sijaitsee Machu Picchu?', 'Brasilia', 'Peru', 'Meksiko', 'Peru'),
+('8', 'Mikä on maailman väkirikkain maa?', 'Intia', 'Kiina', 'USA', 'Intia'),
+('9', 'Mikä joki virtaa Lontoon läpi?', 'Seine', 'Thames', 'Tiber', 'Thames'),
+('10', 'Mikä on Islannin pääkaupunki?', 'Oslo', 'Reykjavik', 'Helsinki', 'Reykjavik'),
+('11', 'Mikä saarivaltio sijaitsee Japanin eteläpuolella?', 'Filippiinit', 'Indonesia', 'Taiwan', 'Taiwan'),
+('12', 'Mikä meri erottaa Euroopan ja Afrikan toisistaan?', 'Välimeri', 'Mustameri', 'Punainen meri', 'Välimeri'),
+('13', 'Missä maassa sijaitsee Sydney?', 'Uusi-Seelanti', 'Kanada', 'Australia', 'Australia'),
+('14', 'Mikä kaupunki tunnetaan "tuulten kaupunkina"?', 'New York', 'Chicago', 'San Francisco', 'Chicago'),
+('15', 'Mikä on Etelä-Amerikan suurin valtio?', 'Argentiina', 'Brasilia', 'Kolumbia', 'Brasilia'),
+('16', 'Mikä on Pohjoismaiden suurin kaupunki väkiluvultaan?', 'Oslo', 'Kööpenhamina', 'Tukholma', 'Tukholma'),
+('17', 'Missä valtiossa sijaitsee Grand Canyon?', 'Kanada', 'USA', 'Meksiko', 'USA'),
+('18', 'Mikä on maailman suurin autiomaa?', 'Sahara', 'Kalahari', 'Gobi', 'Sahara'),
+('19', 'Missä maassa sijaitsee kuuluisa viikinkilaivojen museo?', 'Ruotsi', 'Norja', 'Tanska', 'Norja'),
+('20', 'Mikä joki virtaa Pariisin läpi?', 'Tonava', 'Seine', 'Elbe', 'Seine');
+/*!40000 ALTER TABLE `tehtavat` ENABLE KEYS */;
 UNLOCK TABLES;

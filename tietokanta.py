@@ -1,4 +1,5 @@
 import mysql.connector
+import geopy
 from geopy import distance
 
 yhteys = mysql.connector.connect(
@@ -19,6 +20,17 @@ def haePelaajanTiedot(pelaajanId):
     sql = f'SELECT * FROM game WHERE id = "{pelaajanId}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
+    return tulos
+
+def haePelaajanNykyinenMaa(location):
+    #hae pelaajan nykyinen maa lentokentan identin mukaan
+    sql = f'SELECT iso_country FROM airport WHERE ident = "{location}"'
+    kursori.execute(sql)
+    tulos = kursori.fetchall()[0][0]
+    sql = f'SELECT name FROM country WHERE iso_country = "{tulos}"'
+    kursori.execute(sql)
+    tulos = kursori.fetchall()[0][0]
+
     return tulos
 
 def haeMaanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
@@ -46,11 +58,39 @@ def haeLentokentanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
     tulos = kursori.fetchall()[0]
     return tulos
 
-'''def paivitaPelaajanSijainti(pelaajanId, kentanIdent):
-    sql = f'UPDATE game SET location = "{kentanIdent}" WHERE id = "{pelaajanId}";'
-    kursori = yhteys.cursor()
+def annakysymys(kysymysRajaus):
+    #haetaan kysymyksiä tietokannasta
+    #kysymysnumero, kysymys_vaihtoehdot, vastaus_vaihtoehdot, vastaukset
+    sql = f'SELECT kysymys_vaihtoehdot FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
     kursori.execute(sql)
-    pass'''
+    tulos = kursori.fetchall()[0]
+    print(tulos)
+
+def annakysymysVaihtoehto1(kysymysRajaus):
+    sql = f'SELECT vastaus_vaihtoehto1 FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
+    kursori.execute(sql)
+    tulos = kursori.fetchall()[0]
+    print(tulos)
+
+def annakysymysVaihtoehto2(kysymysRajaus):
+    sql = f'SELECT vastaus_vaihtoehto2 FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
+    kursori.execute(sql)
+    tulos = kursori.fetchall()[0]
+    print(tulos)
+
+def annakysymysVaihtoehto3(kysymysRajaus):
+    sql = f'SELECT vastaus_vaihtoehto1 FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
+    kursori.execute(sql)
+    tulos = kursori.fetchall()[0]
+    print(tulos)
+
+def annavastaus(kysymysRajaus):
+    #haetaan vastauksia tietokannasta
+    #vastaukset
+    sql = f'SELECT vastaukset FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos
 
 def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
     #mahdollisia päivityksiä pelaajan tietoihin ovat
@@ -59,22 +99,8 @@ def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
     kursori.execute(sql)
     pass
 
-def laskeLennonPituus(lahtosijainti, maanosa):
-    #haetaan kaikki maanosan maat
-    maat = haeMaanTiedot("iso_country", "continent", maanosa)
-    tulos = []
-
-    for maa in maat:
-        #lasketaan matkan pituus ja co2 päästöt
-        matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "iso_country", maa[0])).km
-        from lentokone import co2
-        co2Lennolta = co2 * matkanpituus
-        #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
-        tulos.append({
-            "maa": maa[0], 
-            "matkanpituus": matkanpituus, 
-            "co2Lennolta": co2Lennolta
-            })
-
-    return tulos
+def nollaaPelaajanTiedot(pelaajanId):
+    sql = f'UPDATE game SET co2_consumed = "0", co2_budget = "10000", location = "EFHK", screen_name = "PLAYER", time = "0", km_total = "0" WHERE id = "{pelaajanId}";'
+    kursori.execute(sql)
+    pass
 

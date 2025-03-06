@@ -1,27 +1,40 @@
-import random
+import mysql.connector
+import chalk
+import inquirer
+
+from tietokanta import annakysymys
+from tietokanta import annavastaus
+from tietokanta import annakysymysVaihtoehto1
+from tietokanta import annakysymysVaihtoehto2
+from tietokanta import annakysymysVaihtoehto3
+
+oikeavastaus = annavastaus(1)[0][0]
+kysymykset = annakysymys(1)
+kyssärit  = []
 
 
-randomLuku = random.randint(1,4)
-def tehava(randomLuku):
-    if randomLuku == 1:
-        kysy = int(input("Mikä on 1+1? "))
-        if kysy == 2:
-            print("oikein")
+if kysymykset and len(maa_tiedot[0]) > 0:  # Ensure data exists
+        kyssärit.append(
+            f"{maa_tiedot[0][0]} {chalk.red(f"-{round(lentokentta["co2Lennolta"], 2)} CO₂")}")  # Extract the first name
+#annakysymys(1)
+#vastaus = input("Kirjoita vastaus: ")
+#if vastaus in oikeavastaus:
+#    print("oikein")
+#elif vastaus not in oikeavastaus:
+#    print("väärin")
 
-    elif randomLuku == 2:
-        kysy = int(input("Mikä on 1+2? "))
-        if kysy == 3:
-            print("oikein")
+# Create the question with dynamic choices
+  questions = [
+      inquirer.List('maa',
+                    message="Choose a country:",
+                    choices=maat,  # Use the dynamically generated list
+                ),
+  ]
 
-    elif randomLuku == 3:
-        kysy = int(input("Mikä on 1+3? "))
-        if kysy == 4:
-            print("oikein")
+  # Prompt the user
+  answers = inquirer.prompt(questions)
 
-    elif randomLuku == 4:
-        kysy = int(input("Mikä on 1+4? "))
-        if kysy == 5:
-            print("oikein")
+  # Print the selected answer
+  print("You selected:", answers["maa"])
 
-
-tehava(randomLuku)
+valitseSeuraavaLentokentta()

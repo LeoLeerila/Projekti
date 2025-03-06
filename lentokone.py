@@ -1,12 +1,12 @@
 from geopy import distance
-from tietokanta import paivitaPelaajanTiedot, haeLentokentanTiedot
+from tietokanta import paivitaPelaajanTiedot, haeLentokentanTiedot, haeMaanTiedot
 
 #lentokoneen nopeus km/h
 nopeus = 933
-#co_2 päästöt
-co2 = 8
+#co_2 päästöt kg
+co2 = 0.115
 
-def lenna(maaranpaa, sijainti, paivitaPelaaja):
+def lenna(maaranpaa, sijainti, paivitaPelaaja, pelaajanID):
     #haetaan sijainnin ja määränpään koordinaatit
     maaranpaaKoordinaatit = haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", maaranpaa)
     sijaintiKoordinaatit = haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", sijainti)
@@ -16,7 +16,25 @@ def lenna(maaranpaa, sijainti, paivitaPelaaja):
     co2Lennolta = co2 * kesto
     if paivitaPelaaja == 1:
         #päivitetään tietokaanta
-        paivitaPelaajanTiedot(1, "location", maaranpaa)
-        paivitaPelaajanTiedot(1, "co2_consumed", co2Lennolta)
+        paivitaPelaajanTiedot(pelaajanID, "location", maaranpaa)
+        paivitaPelaajanTiedot(pelaajanID, "co2_consumed", co2Lennolta)
     print(f"matkan pituus: {matkanpituus} km, joka kestää: {kesto} tuntia")
     pass
+
+def laskeLennonPituus(lahtosijainti, maanosa):
+    #haetaan kaikki maanosan maat
+    maat = haeMaanTiedot("iso_country", "continent", maanosa)
+    tulos = []
+
+    for maa in maat:
+        #lasketaan matkan pituus ja co2 päästöt
+        matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "iso_country", maa[0])).km
+        co2Lennolta = co2 * matkanpituus
+        #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
+        tulos.append({
+            "maa": maa[0], 
+            "matkanpituus": matkanpituus, 
+            "co2Lennolta": co2Lennolta
+            })
+
+    return tulos
