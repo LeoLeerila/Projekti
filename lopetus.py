@@ -10,7 +10,7 @@ def lopetus():
          / \\  / \\  | \\ /)  |   ( \\ /o\\ / )   |  (\\ / |  / \\  / \\
          ONNEKSI OLKOON VOITIT PELIN
        """)
-    aloitus = input("Paina ENTER-näppäintä jatkaaksesi: ")
+    lopetus = input("Paina ENTER-näppäintä jatkaaksesi: ")
 
     questions = [
         inquirer.List('valinta',
@@ -23,6 +23,8 @@ def lopetus():
 
     if answers['valinta'] == "Tarkastele tilastoja":
         haePelaajanTiedot()
+        lopetus = input("Paina ENTER-näppäintä lopettaaksesi: ")
+        exit()
 
     else:
         print("Peli lopetetaan.")
