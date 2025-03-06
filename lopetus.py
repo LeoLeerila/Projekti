@@ -1,16 +1,16 @@
 import inquirer
-
 from tietokanta import haePelaajanTiedot
 
 valinnat = ["Tarkastele tilastoja", "Lopeta peli"]
 
-def aloitus():
+def lopetus():
     print("""
           o  \\ o / _ o       __|   \\ /    |__      o _ \\ o /  o
          /|\\   |    /\\  ___\\o  \\o   |   o/   o/__  /\\    |   /|\\
          / \\  / \\  | \\ /)  |   ( \\ /o\\ / )   |  (\\ / |  / \\  / \\
-         VOITIT PELIN
+         ONNEKSI OLKOON VOITIT PELIN
        """)
+    aloitus = input("Paina ENTER-näppäintä jatkaaksesi: ")
 
     questions = [
         inquirer.List('valinta',
