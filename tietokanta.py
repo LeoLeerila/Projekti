@@ -59,7 +59,10 @@ def haeMaanLentokentat(iso_country):
     #((type = "small_airport") OR (type = "medium_airport") OR (type = "large_airport"))
     sql = f'SELECT ident FROM airport WHERE type = "large_airport" AND iso_country = "{iso_country}"'
     kursori.execute(sql)
-    tulos = kursori.fetchall()[0]
+    try:
+        tulos = kursori.fetchall()[0]
+    except:
+        return
     return tulos
 
 def haeLentokentanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
