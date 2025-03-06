@@ -1,5 +1,9 @@
-import mysql.connector
-import chalk
+import os
+import sys
+from pprint import pprint
+
+sys.path.append(os.path.realpath("."))
+
 import inquirer
 
 from tietokanta import annakysymys
@@ -9,32 +13,18 @@ from tietokanta import annakysymysVaihtoehto2
 from tietokanta import annakysymysVaihtoehto3
 
 oikeavastaus = annavastaus(1)[0][0]
-kysymykset = annakysymys(1)
-kyssärit  = []
+kysymys = annakysymys(1)[0]
+print(kysymys)
+print(oikeavastaus)
+questions = [
+  inquirer.List('interests',
+                    message= '"Tää on kyl paha..."',
+                    carousel=True,
+                    choices=[annakysymysVaihtoehto1(1)[0], annakysymysVaihtoehto2(1)[0], annakysymysVaihtoehto3(1)[0]])]
+#answer = inquirer.prompt(questions)
+#pprint(answer)
+vastaus = input("kirjoita vastaus: ")
+if vastaus == oikeavastaus:
+    print("Kyl se on")#, answer["Tää"])
 
 
-if kysymykset and len(maa_tiedot[0]) > 0:  # Ensure data exists
-        kyssärit.append(
-            f"{maa_tiedot[0][0]} {chalk.red(f"-{round(lentokentta["co2Lennolta"], 2)} CO₂")}")  # Extract the first name
-#annakysymys(1)
-#vastaus = input("Kirjoita vastaus: ")
-#if vastaus in oikeavastaus:
-#    print("oikein")
-#elif vastaus not in oikeavastaus:
-#    print("väärin")
-
-# Create the question with dynamic choices
-  questions = [
-      inquirer.List('maa',
-                    message="Choose a country:",
-                    choices=maat,  # Use the dynamically generated list
-                ),
-  ]
-
-  # Prompt the user
-  answers = inquirer.prompt(questions)
-
-  # Print the selected answer
-  print("You selected:", answers["maa"])
-
-valitseSeuraavaLentokentta()
