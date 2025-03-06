@@ -51,7 +51,7 @@ def testiTehtava():
   questions = [
       inquirer.List('tehtava',
                     message="Choose a country:",
-                    choices=[("Maapallo on litteä", 0), ("Maapallo on pyöreä", 1)]
+                    choices=[("The Earth is flat", 0), ("The earth is round", 1)]
                 ),
   ]
 
