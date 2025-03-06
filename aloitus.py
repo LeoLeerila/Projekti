@@ -1,5 +1,6 @@
 import inquirer
 
+
 valinnat = ["Aloita peli", "Lopeta peli"]
 
 def aloitus():
@@ -34,3 +35,4 @@ def aloitus():
 
 print("Sinun täytyy matkustaa Thaimaaseen ilman, että ylität CO2-budjettisi.")
 aloitus()
+
