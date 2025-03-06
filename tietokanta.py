@@ -20,6 +20,16 @@ def haePelaajanTiedot(pelaajanId):
     sql = f'SELECT * FROM game WHERE id = "{pelaajanId}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
+
+    tulos = {
+    "id": tulos[0],
+    "co2_consumed": tulos[1],
+    "co2_budget": tulos[2],
+    "location": tulos[3],
+    "screen_name": tulos[4],
+    "time": tulos[5],
+    "km_total": tulos[6]
+}
     return tulos
 
 def haePelaajanNykyinenMaa(location):
