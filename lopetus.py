@@ -29,5 +29,5 @@ def aloitus():
         exit()
 
 
-aloitus()
+lopetus()
 
