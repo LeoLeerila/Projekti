@@ -16,10 +16,11 @@ def lenna(maaranpaa, sijainti, paivitaPelaaja, pelaajanID):
     co2Lennolta = co2 * matkanpituus
     if paivitaPelaaja == 1:
         #päivitetään tietokaanta
+        pelaajanTiedot = haePelaajanTiedot(pelaajanID)
         paivitaPelaajanTiedot(pelaajanID, "location", maaranpaa)
-        paivitaPelaajanTiedot(pelaajanID, "co2_consumed", (co2Lennolta + haePelaajanTiedot(1)["co2_consumed"]))
-        paivitaPelaajanTiedot(pelaajanID, "km_total", (matkanpituus + haePelaajanTiedot(1)["km_total"]))
-        paivitaPelaajanTiedot(pelaajanID, "time", (kesto + haePelaajanTiedot(1)["time"]))
+        paivitaPelaajanTiedot(pelaajanID, "co2_consumed", (co2Lennolta + pelaajanTiedot["co2_consumed"]))
+        paivitaPelaajanTiedot(pelaajanID, "km_total", (matkanpituus + pelaajanTiedot["km_total"]))
+        paivitaPelaajanTiedot(pelaajanID, "time", (kesto + pelaajanTiedot["time"]))
     #palauttaa sanakirjan matkanpituus, kesto, co2Lennolta
     return {"matkanpituus": matkanpituus, "kesto": kesto, "co2Lennolta": co2Lennolta}
 
