@@ -24,6 +24,8 @@ def lenna(maaranpaa, sijainti, paivitaPelaaja, pelaajanID):
     pass
 
 def laskeLennonPituus(lahtosijainti, maanosa):
+    #haetaan lähtösijainnin koordinaatit identistä
+    lahtosijainti = haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", lahtosijainti)
     #haetaan kaikki maanosan maat
     maat = haeMaanTiedot("iso_country", "continent", maanosa)
     tulos = []
