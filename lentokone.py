@@ -30,14 +30,15 @@ def laskeLennonPituus(lahtosijainti, maanosa):
 
     for maa in maat:
         #lasketaan matkan pituus ja co2 päästöt
-        matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "iso_country", maa[0])).km
-        kesto = matkanpituus / nopeus
-        co2Lennolta = co2 * matkanpituus
-        #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
-        tulos.append({
-            "maa": maa[0], 
-            "matkanpituus": matkanpituus, 
-            "co2Lennolta": co2Lennolta
+        if maa[0] != "ZZ":
+            matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "iso_country", maa[0])).km
+            kesto = matkanpituus / nopeus
+            co2Lennolta = co2 * matkanpituus
+            #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
+            tulos.append({
+                "maa": maa[0], 
+                "matkanpituus": matkanpituus, 
+                "co2Lennolta": co2Lennolta
             })
 
     return tulos
