@@ -62,6 +62,7 @@ if pelaajanTiedot["km_total"] == 0:
 
 while peliKaynnissa == 1:
     #pelaaja valitsee seuraavan maan johon lentää
+    pelaajanTiedot = haePelaajanTiedot(1)
     maa = valitseSeuraavaLentokentta(pelaajanTiedot["location"])
     #print(maa)
 
@@ -72,8 +73,11 @@ while peliKaynnissa == 1:
         nollaaPelaajanTiedot(1)
         exit()
     #jos pelaaja pääsee thaimaahan pelaaja voittaa pelin ja peli päättyy
-    if maa == "EFHK":
+    if maa == "VTBD":
         print("Voitit pelin!")
+        peliKaynnissa = 0
+        nollaaPelaajanTiedot(1)
+        exit()
 
     if maa:
         testiTehtava()
