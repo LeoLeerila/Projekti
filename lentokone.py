@@ -20,10 +20,8 @@ def lenna(maaranpaa, sijainti, paivitaPelaaja, pelaajanID):
         paivitaPelaajanTiedot(pelaajanID, "co2_consumed", co2Lennolta)
         paivitaPelaajanTiedot(pelaajanID, "km_total", matkanpituus)
         paivitaPelaajanTiedot(pelaajanID, "time", kesto)
-    else: 
-        #palauttaa sanakirjan matkanpituus, kesto, co2Lennolta
-        return {"matkanpituus": matkanpituus, "kesto": kesto, "co2Lennolta": co2Lennolta}
-    pass
+    #palauttaa sanakirjan matkanpituus, kesto, co2Lennolta
+    return {"matkanpituus": matkanpituus, "kesto": kesto, "co2Lennolta": co2Lennolta}
 
 def laskeLennonPituus(lahtosijainti, maanosa):
     #haetaan lähtösijainnin koordinaatit identistä
