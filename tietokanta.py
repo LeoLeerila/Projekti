@@ -37,7 +37,10 @@ def haeMaanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
     #hae maan tiedot
     #mahdollisia haettavaTieto ja rajausTieto arvoja ovat
     #iso_country, name, continent, wikipedia_link, keywords
-    sql = f'SELECT {haettavaTieto} FROM country WHERE {rajausTieto} = "{rajausTiedonArvo}"'
+    if rajausTiedonArvo == "*":
+        sql = f'SELECT {haettavaTieto} FROM country'
+    else:
+        sql = f'SELECT {haettavaTieto} FROM country WHERE {rajausTieto} = "{rajausTiedonArvo}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()
     return tulos
@@ -55,7 +58,10 @@ def haeLentokentanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
     #id, ident, type, name, latitude_deg, longitude_deg, elevation_ft, continent, iso_country, iso_region, municipality, scheduled_service, gps_code, iata_code, local_code, home_link, wikipedia_link, keywords
     sql = f'SELECT {haettavaTieto} FROM airport WHERE {rajausTieto} = "{rajausTiedonArvo}"'
     kursori.execute(sql)
-    tulos = kursori.fetchall()[0]
+    try:
+        tulos = kursori.fetchall()[0]
+    except:
+        return
     return tulos
 
 def annakysymys(kysymysRajaus):

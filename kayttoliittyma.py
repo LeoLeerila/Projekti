@@ -19,9 +19,9 @@ def lentokentat():
 
    
 
-def valitseSeuraavaLentokentta():
+def valitseSeuraavaLentokentta(location):
   # Get the list of airports
-  lentokentat = laskeLennonPituus((60.316998732, 24.957996168), "AF")
+  lentokentat = laskeLennonPituus(location, "*")
 
   maat = []
   for lentokentta in lentokentat:
@@ -43,5 +43,5 @@ def valitseSeuraavaLentokentta():
   # Print the selected answer
   print("You selected:", answers["maa"])
 
-valitseSeuraavaLentokentta()
+valitseSeuraavaLentokentta("EFHK")
 lentokentat()
