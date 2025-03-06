@@ -83,25 +83,25 @@ def annakysymys(kysymysRajaus):
     sql = f'SELECT kysymys_vaihtoehdot FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
-    print(tulos)
+    return tulos
 
 def annakysymysVaihtoehto1(kysymysRajaus):
     sql = f'SELECT vastaus_vaihtoehto1 FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
-    print(tulos)
+    return tulos
 
 def annakysymysVaihtoehto2(kysymysRajaus):
     sql = f'SELECT vastaus_vaihtoehto2 FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
-    print(tulos)
+    return tulos
 
 def annakysymysVaihtoehto3(kysymysRajaus):
-    sql = f'SELECT vastaus_vaihtoehto1 FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
+    sql = f'SELECT vastaus_vaihtoehto3 FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
-    print(tulos)
+    return tulos
 
 def annavastaus(kysymysRajaus):
     #haetaan vastauksia tietokannasta
