@@ -108,6 +108,7 @@ CREATE TABLE `game` (
   `location` varchar(10) DEFAULT NULL,
   `screen_name` varchar(40) DEFAULT NULL,
   `time` int(8) DEFAULT NULL,
+  `km_total` int(8) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `location` (`location`),
   CONSTRAINT `game_ibfk_1` FOREIGN KEY (`location`) REFERENCES `airport` (`ident`)
@@ -120,7 +121,7 @@ CREATE TABLE `game` (
 
 LOCK TABLES `game` WRITE;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
-INSERT INTO `game` VALUES ('1',0,10000,'EFHK','PLAYER',0);
+INSERT INTO `game` VALUES ('1',0,100,'EFHK','PLAYER',0,0);
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 UNLOCK TABLES;
 
