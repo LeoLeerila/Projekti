@@ -13,11 +13,13 @@ def lenna(maaranpaa, sijainti, paivitaPelaaja, pelaajanID):
     #lasketaan matkan pituus ja kuinka kauan siinä kestää
     matkanpituus = distance.distance(maaranpaaKoordinaatit, sijaintiKoordinaatit).km
     kesto = matkanpituus / nopeus
-    co2Lennolta = co2 * kesto
+    co2Lennolta = co2 * matkanpituus
     if paivitaPelaaja == 1:
         #päivitetään tietokaanta
         paivitaPelaajanTiedot(pelaajanID, "location", maaranpaa)
         paivitaPelaajanTiedot(pelaajanID, "co2_consumed", co2Lennolta)
+        paivitaPelaajanTiedot(pelaajanID, "km_total", matkanpituus)
+        paivitaPelaajanTiedot(pelaajanID, "time", kesto)
     print(f"matkan pituus: {matkanpituus} km, joka kestää: {kesto} tuntia")
     pass
 
@@ -29,6 +31,7 @@ def laskeLennonPituus(lahtosijainti, maanosa):
     for maa in maat:
         #lasketaan matkan pituus ja co2 päästöt
         matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "iso_country", maa[0])).km
+        kesto = matkanpituus / nopeus
         co2Lennolta = co2 * matkanpituus
         #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
         tulos.append({
