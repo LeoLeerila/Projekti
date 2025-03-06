@@ -92,12 +92,6 @@ def annavastaus(kysymysRajaus):
     tulos = kursori.fetchall()
     return tulos
 
-'''def paivitaPelaajanSijainti(pelaajanId, kentanIdent):
-    sql = f'UPDATE game SET location = "{kentanIdent}" WHERE id = "{pelaajanId}";'
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    pass'''
-
 def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
     #mahdollisia päivityksiä pelaajan tietoihin ovat
     #id, co2_consumed, co2_budget, location, screen_name, time
