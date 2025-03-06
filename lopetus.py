@@ -8,7 +8,7 @@ def lopetus():
           o  \\ o / _ o       __|   \\ /    |__      o _ \\ o /  o
          /|\\   |    /\\  ___\\o  \\o   |   o/   o/__  /\\    |   /|\\
          / \\  / \\  | \\ /)  |   ( \\ /o\\ / )   |  (\\ / |  / \\  / \\
-         ONNEKSI OLKOON VOITIT PELIN
+         ONNEKSI OLKOON OLET SAAPUNUT THAIMAASEEN
        """)
     lopetus = input("Paina ENTER-näppäintä jatkaaksesi: ")
 
