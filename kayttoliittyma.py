@@ -11,7 +11,7 @@ def lentokentat(lahtoSijainti):
   for lentokentta in lentokentat:
       maa_tiedot = haeMaanTiedot("name", "iso_country", lentokentta["maa"])
       if maa_tiedot and len(maa_tiedot[0]) > 0:  # Ensure data exists
-          if round(lentokentta["co2Lennolta"], 2) <= haePelaajanTiedot(1)["co2_budget"]:
+          if round(lentokentta["co2Lennolta"], 2) <= haePelaajanTiedot(1)["co2_budget"]-haePelaajanTiedot(1)["co2_consumed"]:
             if haePelaajanTiedot(1)["location"] != haeMaanLentokentat(lentokentta["maa"])[0]:
               maat.append((f"{maa_tiedot[0][0]} {chalk.red(f"-{round(lentokentta["co2Lennolta"], 2)} kg CO₂")}", haeMaanLentokentat(lentokentta["maa"])))  # Extract the first name
   return maat
