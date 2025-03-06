@@ -106,7 +106,7 @@ def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
     pass
 
 def nollaaPelaajanTiedot(pelaajanId):
-    sql = f'UPDATE game SET co2_consumed = "0", co2_budget = "10000", location = "EFHK", screen_name = "PLAYER", time = "0" WHERE id = "{pelaajanId}";'
+    sql = f'UPDATE game SET co2_consumed = "0", co2_budget = "10000", location = "EFHK", screen_name = "PLAYER", time = "0", km_total = "0" WHERE id = "{pelaajanId}";'
     kursori.execute(sql)
     pass
 
