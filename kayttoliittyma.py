@@ -1,35 +1,25 @@
 import inquirer
-from tietokanta import haeMaanTiedot, haePelaajanTiedot
-from lentokone import laskeLennonPituus
+from tietokanta import haeMaanTiedot, haePelaajanTiedot, haeMaanLentokentat, haePelaajanNykyinenMaa
+from lentokone import laskeLennonPituus, lenna
 import chalk
 
 def lentokentat(lahtoSijainti):
-  pelaajanTiedot = haePelaajanTiedot(1)
-  #id, co2_consumed, co2_budget, location, screen_name, time, km_total
-  pelaajanTiedot = {
-      "id": pelaajanTiedot[0],
-      "co2_consumed": pelaajanTiedot[1],
-      "co2_budget": pelaajanTiedot[2],
-      "location": pelaajanTiedot[3],
-      "screen_name": pelaajanTiedot[4],
-      "time": pelaajanTiedot[5],
-      "km_total": pelaajanTiedot[6]
-  }
   # Get the list of airports
   lentokentat = laskeLennonPituus(lahtoSijainti, "*")
-
-  print(pelaajanTiedot["co2_budget"])
 
   maat = []
   for lentokentta in lentokentat:
       maa_tiedot = haeMaanTiedot("name", "iso_country", lentokentta["maa"])
       if maa_tiedot and len(maa_tiedot[0]) > 0:  # Ensure data exists
-          if round(lentokentta["co2Lennolta"], 2) <= pelaajanTiedot["co2_budget"]:
-            maat.append(f"{maa_tiedot[0][0]} {chalk.red(f"-{round(lentokentta["co2Lennolta"], 2)} kg CO₂")}")  # Extract the first name
+          if round(lentokentta["co2Lennolta"], 2) <= haePelaajanTiedot(1)["co2_budget"]:
+            if haePelaajanTiedot(1)["location"] != haeMaanLentokentat(lentokentta["maa"])[0]:
+              maat.append((f"{maa_tiedot[0][0]} {chalk.red(f"-{round(lentokentta["co2Lennolta"], 2)} kg CO₂")}", haeMaanLentokentat(lentokentta["maa"])))  # Extract the first name
   return maat
    
 
 def valitseSeuraavaLentokentta(location):
+  pelaajanTiedot = haePelaajanTiedot(1)
+  print(haePelaajanNykyinenMaa(pelaajanTiedot["location"]))
 
   maat = lentokentat(location)
   # Create the question with dynamic choices
@@ -44,7 +34,8 @@ def valitseSeuraavaLentokentta(location):
   answers = inquirer.prompt(questions)
 
   # Print the selected answer
-  print("You selected:", answers["maa"])
+  print("You selected:", answers["maa"][0])
+
+  print(lenna(answers["maa"][0], haePelaajanTiedot(1)["location"], 1, 1))
 
 valitseSeuraavaLentokentta("EFHK")
-lentokentat()
