@@ -14,7 +14,7 @@ def aloitus():
           THAIMAA             (_   (_ .  _) _)                       
 
        """)
-    aloitus = input("Paina mitä vain aloittaaksesi: ")
+    aloitus = input("Paina ENTER-näppäintä aloittaaksesi: ")
 
     questions = [
         inquirer.List('valinta',
