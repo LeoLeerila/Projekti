@@ -22,6 +22,17 @@ def haePelaajanTiedot(pelaajanId):
     tulos = kursori.fetchall()[0]
     return tulos
 
+def haePelaajanNykyinenMaa(location):
+    #hae pelaajan nykyinen maa lentokentan identin mukaan
+    sql = f'SELECT iso_country FROM airport WHERE ident = "{location}"'
+    kursori.execute(sql)
+    tulos = kursori.fetchall()[0][0]
+    sql = f'SELECT name FROM country WHERE iso_country = "{tulos}"'
+    kursori.execute(sql)
+    tulos = kursori.fetchall()[0][0]
+
+    return tulos
+
 def haeMaanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
     #hae maan tiedot
     #mahdollisia haettavaTieto ja rajausTieto arvoja ovat
