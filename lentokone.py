@@ -1,5 +1,5 @@
 from geopy import distance
-from tietokanta import paivitaPelaajanTiedot, haeLentokentanTiedot, haeMaanTiedot
+from tietokanta import paivitaPelaajanTiedot, haeLentokentanTiedot, haeMaanTiedot, haePelaajanTiedot
 
 #lentokoneen nopeus km/h
 nopeus = 933
@@ -17,9 +17,9 @@ def lenna(maaranpaa, sijainti, paivitaPelaaja, pelaajanID):
     if paivitaPelaaja == 1:
         #päivitetään tietokaanta
         paivitaPelaajanTiedot(pelaajanID, "location", maaranpaa)
-        paivitaPelaajanTiedot(pelaajanID, "co2_consumed", co2Lennolta)
-        paivitaPelaajanTiedot(pelaajanID, "km_total", matkanpituus)
-        paivitaPelaajanTiedot(pelaajanID, "time", kesto)
+        paivitaPelaajanTiedot(pelaajanID, "co2_consumed", (co2Lennolta + haePelaajanTiedot(1)["co2_consumed"]))
+        paivitaPelaajanTiedot(pelaajanID, "km_total", (matkanpituus + haePelaajanTiedot(1)["km_total"]))
+        paivitaPelaajanTiedot(pelaajanID, "time", (kesto + haePelaajanTiedot(1)["time"]))
     #palauttaa sanakirjan matkanpituus, kesto, co2Lennolta
     return {"matkanpituus": matkanpituus, "kesto": kesto, "co2Lennolta": co2Lennolta}
 
