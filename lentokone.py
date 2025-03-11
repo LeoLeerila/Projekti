@@ -36,8 +36,6 @@ def laskeLennonPituus(lahtosijainti, maanosa):
         #lasketaan matkan pituus ja co2 päästöt
         if haeMaanLentokentat(maa[0]): 
             matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", haeMaanLentokentat(maa[0])[0])).km
-            #print(haeMaanLentokentat(maa[0])[0])
-            kesto = matkanpituus / nopeus
             co2Lennolta = co2 * matkanpituus
             #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
             tulos.append({
