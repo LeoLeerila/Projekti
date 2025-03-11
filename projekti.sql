@@ -133,11 +133,11 @@ DROP TABLE IF EXISTS `tehtavat`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tehtavat` (
   `kysymysnumero` int(8) NOT NULL,
-  `kysymys_vaihtoehdot` varchar(40) NOT NULL,
-  `vastaus_vaihtoehto1` varchar(400) DEFAULT NULL,
-  `vastaus_vaihtoehto2` varchar(400) DEFAULT NULL,
-  `vastaus_vaihtoehto3` varchar(400) DEFAULT NULL,
-  `vastaukset` varchar(40) DEFAULT NULL
+  `kysymys_vaihtoehdot` varchar(65535) NOT NULL,
+  `vastaus_vaihtoehto1` varchar(65535) DEFAULT NULL,
+  `vastaus_vaihtoehto2` varchar(65535) DEFAULT NULL,
+  `vastaus_vaihtoehto3` varchar(65535) DEFAULT NULL,
+  `vastaukset` varchar(65535) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -7,7 +7,7 @@ from tietokanta import annakysymys, annavastaus, annakysymysVaihtoehto, haePelaa
 
 
 def kysymys():
-    N = random.randint(1, 20)
+    N = random.randint(1, 50)
     oikeavastaus = annavastaus(N)[0][0]
     kysymys = annakysymys(N)[0]
     #print(kysymys)
