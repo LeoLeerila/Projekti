@@ -85,12 +85,12 @@ def annakysymys(kysymysRajaus):
     tulos = kursori.fetchall()[0]
     return tulos
 
-def annakysymysVaihtoehto1(kysymysRajaus):
-    sql = f'SELECT vastaus_vaihtoehto1 FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
+def annakysymysVaihtoehto(kysymysRajaus, vaihtoehto):
+    sql = f'SELECT vastaus_vaihtoehto{vaihtoehto} FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
     return tulos
-
+"""
 def annakysymysVaihtoehto2(kysymysRajaus):
     sql = f'SELECT vastaus_vaihtoehto2 FROM tehtavat WHERE kysymysnumero = "{kysymysRajaus}"'
     kursori.execute(sql)
@@ -102,7 +102,7 @@ def annakysymysVaihtoehto3(kysymysRajaus):
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
     return tulos
-
+"""
 def annavastaus(kysymysRajaus):
     #haetaan vastauksia tietokannasta
     #vastaukset
@@ -119,7 +119,7 @@ def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
     pass
 
 def nollaaPelaajanTiedot(pelaajanId):
-    sql = f'UPDATE game SET co2_consumed = "0", location = "EFHK", screen_name = "PLAYER", time = "0", km_total = "0" WHERE id = "{pelaajanId}";'
+    sql = f'UPDATE game SET co2_consumed = "0", co2_budget = "100", location = "EFHK", screen_name = "PLAYER", time = "0", km_total = "0" WHERE id = "{pelaajanId}";'
     kursori.execute(sql)
     pass
 

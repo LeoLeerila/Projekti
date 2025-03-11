@@ -3,14 +3,14 @@ from tietokanta import haePelaajanTiedot
 
 valinnat = ["Tarkastele tilastoja", "Lopeta peli"]
 
-def lopetus():
+def voitto():
     print("""
           o  \\ o / _ o       __|   \\ /    |__      o _ \\ o /  o
          /|\\   |    /\\  ___\\o  \\o   |   o/   o/__  /\\    |   /|\\
          / \\  / \\  | \\ /)  |   ( \\ /o\\ / )   |  (\\ / |  / \\  / \\
          ONNEKSI OLKOON OLET SAAPUNUT THAIMAASEEN
        """)
-    lopetus = input("Paina ENTER-näppäintä jatkaaksesi: ")
+    #lopetus = input("Paina ENTER-näppäintä jatkaaksesi: ")
 
     questions = [
         inquirer.List('valinta',
@@ -22,14 +22,60 @@ def lopetus():
     answers = inquirer.prompt(questions)
 
     if answers['valinta'] == "Tarkastele tilastoja":
-        haePelaajanTiedot()
-        lopetus = input("Paina ENTER-näppäintä lopettaaksesi: ")
-        exit()
+        tiedot = haePelaajanTiedot(1)
+        
+        #print(f"{tiedot['id']}")
+        print(f"käytetty co2 budjetti {tiedot['co2_consumed']}")
+        print(f"koko co2 budjetti {tiedot['co2_budget']}")
+        #print(f"{tiedot['location']}")
+        #print(f"{tiedot['screen_name']}")
+        print(f"aika lentäessä {tiedot['time']}")
+        print(f"lentojen kokonais matka {tiedot['km_total']}")
+        
+        #lopetus = input("Paina ENTER-näppäintä lopettaaksesi: ")
+        #exit()
 
     else:
         print("Peli lopetetaan.")
-        exit()
+        #exit()
+
+def havio():
+    print("""
+
+         /O\  
+          |   
+         / \  
+         VALITETTAVASTI ET PÄÄSSYT THAIMAASEEN
+       """)
+    #lopetus = input("Paina ENTER-näppäintä jatkaaksesi: ")
+
+    questions = [
+        inquirer.List('valinta',
+                      message="Valitse:",
+                      choices=valinnat,  # Use the dynamically generated list
+                      ),
+    ]
+
+    answers = inquirer.prompt(questions)
+
+    if answers['valinta'] == "Tarkastele tilastoja":
+        tiedot = haePelaajanTiedot(1)
+        
+        #print(f"{tiedot['id']}")
+        print(f"käytetty co2 budjetti {tiedot['co2_consumed']}")
+        print(f"koko co2 budjetti {tiedot['co2_budget']}")
+        #print(f"{tiedot['location']}")
+        #print(f"{tiedot['screen_name']}")
+        print(f"aika lentäessä {tiedot['time']}")
+        print(f"lentojen kokonais matka {tiedot['km_total']}")
+        
+        #lopetus = input("Paina ENTER-näppäintä lopettaaksesi: ")
+        #exit()
+
+    else:
+        print("Peli lopetetaan.")
+        #exit()
 
 
-lopetus()
+#lopetus()
 
