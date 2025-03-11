@@ -1,23 +1,30 @@
 import inquirer
+import random
 
-from tietokanta import annakysymys
-from tietokanta import annavastaus
-from tietokanta import annakysymysVaihtoehto1
-from tietokanta import annakysymysVaihtoehto2
-from tietokanta import annakysymysVaihtoehto3
-
-oikeavastaus = annavastaus(1)[0][0]
-kysymys = annakysymys(1)[0]
-print(kysymys)
-lista = [annakysymysVaihtoehto1(1)[0], annakysymysVaihtoehto2(1)[0], annakysymysVaihtoehto3(1)[0]]
-questions = [
-  inquirer.List('interests',
-                    message= '"Tää on kyl paha..."',
-                    choices=lista)]
-answer = inquirer.prompt(questions)
-#pprint(answer)
-
-if answer == oikeavastaus:
-    print("Kyl se on")#, answer["Tää"])
+from tietokanta import annakysymys, annavastaus, annakysymysVaihtoehto, haePelaajanTiedot, paivitaPelaajanTiedot
+#from tietokanta import annakysymysVaihtoehto2
+#from tietokanta import annakysymysVaihtoehto3
 
 
+def kysymys():
+    N = random.randint(1, 20)
+    oikeavastaus = annavastaus(N)[0][0]
+    kysymys = annakysymys(N)[0]
+    #print(kysymys)
+    #print(oikeavastaus)
+    lista = [annakysymysVaihtoehto(N, 1)[0], annakysymysVaihtoehto(N, 2)[0], annakysymysVaihtoehto(N, 3)[0]]
+    questions = [
+        #"Tää on kyl paha..."
+      inquirer.List('vastaus',
+                        message= kysymys,
+                        choices=lista)]
+    answer = inquirer.prompt(questions)["vastaus"]
+    #pprint(answer)
+    #print(answer)
+    if answer == oikeavastaus:
+        pelaajantiedot = haePelaajanTiedot(1)
+        paivitaPelaajanTiedot(1, "co2_budget", (pelaajantiedot["co2_budget"] + 50))
+        print("oikea vastaus")#, answer["Tää"])
+
+    else:
+        print("väärä vastaus")
