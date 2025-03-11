@@ -14,6 +14,8 @@ if pelaajanTiedot["km_total"] == 0:
 
 
 while peliKaynnissa == 1:
+    #päivitetään pelaajaan tiedot
+    pelaajanTiedot = haePelaajanTiedot(1)
     #pelaaja valitsee seuraavan maan johon lentää
     valitseSeuraavaLentokentta(pelaajanTiedot["location"])
     #pelaaja tekee tehtävän
