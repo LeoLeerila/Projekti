@@ -62,12 +62,12 @@ def havio():
         tiedot = haePelaajanTiedot(1)
         
         #print(f"{tiedot['id']}")
-        print(f"käytetty co2 budjetti {tiedot['co2_consumed']}")
-        print(f"koko co2 budjetti {tiedot['co2_budget']}")
+        print(f"käytetty co2 budjetti {tiedot['co2_consumed']} kg")
+        print(f"koko co2 budjetti {tiedot['co2_budget']} kg")
         #print(f"{tiedot['location']}")
         #print(f"{tiedot['screen_name']}")
-        print(f"aika lentäessä {tiedot['time']}")
-        print(f"lentojen kokonais matka {tiedot['km_total']}")
+        print(f"aika lentäessä {tiedot['time']} h")
+        print(f"lentojen kokonais matka {tiedot['km_total']} km")
         
         #lopetus = input("Paina ENTER-näppäintä lopettaaksesi: ")
         #exit()
