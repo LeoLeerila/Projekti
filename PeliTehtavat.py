@@ -23,7 +23,7 @@ def kysymys():
     #print(answer)
     if answer == oikeavastaus:
         pelaajantiedot = haePelaajanTiedot(1)
-        paivitaPelaajanTiedot(1, "co2_budget", (pelaajantiedot["co2_budget"] + 50))
+        paivitaPelaajanTiedot(1, "co2_budget", (pelaajantiedot["co2_budget"] + 75))
         print("oikea vastaus")#, answer["Tää"])
 
     else:
