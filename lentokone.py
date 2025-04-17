@@ -1,6 +1,6 @@
 from geopy import distance
 import math
-from tietokanta import paivitaPelaajanTiedot, haeLentokentanTiedot, haeMaanTiedot, haePelaajanTiedot, haeMaanLentokentat
+from tietokanta import paivitaPelaajanTiedot, haeLentokentanTiedot, haeMaanTiedot, haePelaajanTiedot, haeMaanLentokentat, haeLentokentat
 
 #lentokoneen nopeus km/h
 nopeus = 933
@@ -29,19 +29,18 @@ def laskeLennonPituus(lahtosijainti, maanosa):
     #haetaan lähtösijainnin koordinaatit identistä
     lahtosijainti = haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", lahtosijainti)
     #haetaan kaikki maanosan maat
-    maat = haeMaanTiedot("iso_country", "continent", maanosa)
+    lentokentat = haeLentokentat()
     tulos = []
 
-    for maa in maat:
+    for lentokentta in lentokentat:
         #lasketaan matkan pituus ja co2 päästöt
-        if haeMaanLentokentat(maa[0]): 
-            matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", haeMaanLentokentat(maa[0])[0])).km
-            co2Lennolta = co2 * matkanpituus
-            #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
-            tulos.append({
-                "maa": maa[0], 
-                "matkanpituus": matkanpituus, 
-                "co2Lennolta": co2Lennolta
-            })
+        matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", lentokentta[0])).km
+        co2Lennolta = co2 * matkanpituus
+        #lisätään maan koodi, matkanpituus ja co2 hinta tulokseen
+        tulos.append({
+            "lentokentta": lentokentta[0], 
+            "matkanpituus": matkanpituus, 
+            "co2Lennolta": co2Lennolta
+        })
 
     return tulos

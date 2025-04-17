@@ -65,6 +65,15 @@ def haeMaanLentokentat(iso_country):
         return
     return tulos
 
+def haeLentokentat():
+    sql = f'SELECT ident FROM airport'
+    kursori.execute(sql)
+    try:
+        tulos = kursori.fetchall()
+    except:
+        return
+    return tulos
+
 def haeLentokentanTiedot(haettavaTieto, rajausTieto, rajausTiedonArvo):
     #hae lentokentan tiedot
     #mahdollisia haettavaTieto ja rajausTieto arvoja ovat
