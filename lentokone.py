@@ -1,5 +1,6 @@
 from geopy import distance
 import math
+import time
 from tietokanta import paivitaPelaajanTiedot, haeLentokentanTiedot, haeMaanTiedot, haePelaajanTiedot, haeMaanLentokentat, haeLentokentat
 
 #lentokoneen nopeus km/h
@@ -31,7 +32,7 @@ def laskeLennonPituus(lahtosijainti, maanosa):
     #haetaan kaikki maanosan maat
     lentokentat = haeLentokentat()
     tulos = []
-
+    start = time.process_time()
     for lentokentta in lentokentat:
         #lasketaan matkan pituus ja co2 päästöt
         matkanpituus = distance.distance(lahtosijainti, haeLentokentanTiedot("latitude_deg, longitude_deg", "ident", lentokentta[0])).km
@@ -42,5 +43,8 @@ def laskeLennonPituus(lahtosijainti, maanosa):
             "matkanpituus": matkanpituus, 
             "co2Lennolta": co2Lennolta
         })
+    end = time.process_time()
+
+    print(f"It took {end-start} seconds to calculate the distances to {len(lentokentat)} airports.")
 
     return tulos

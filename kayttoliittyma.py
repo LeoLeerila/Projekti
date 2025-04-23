@@ -1,5 +1,5 @@
 import inquirer
-from tietokanta import haeMaanTiedot, haePelaajanTiedot, haeMaanLentokentat, haePelaajanNykyinenMaa, paivitaPelaajanTiedot
+from tietokanta import haeMaanTiedot, haePelaajanTiedot, haeMaanLentokentat, haePelaajanNykyinenMaa, paivitaPelaajanTiedot, haeLentokentanTiedot
 from lentokone import laskeLennonPituus, lenna
 import chalk
 import random
@@ -7,18 +7,16 @@ import random
 
 def lentokentat(lahtoSijainti):
   # Get the list of airports
-  lentokentat = laskeLennonPituus(lahtoSijainti, "*")
+  lentokentatRaw = laskeLennonPituus(lahtoSijainti, "*")
 
-  maat = []
-  for lentokentta in lentokentat:
-      maa_tiedot = haeMaanTiedot("name", "iso_country", lentokentta["maa"])
-      
-      if maa_tiedot and len(maa_tiedot[0]) > 0 and haeMaanLentokentat(lentokentta["maa"]):  # Ensure data exists
-          if round(lentokentta["co2Lennolta"], 2) <= haePelaajanTiedot(1)["co2_budget"] - haePelaajanTiedot(1)["co2_consumed"]:
-            if haePelaajanTiedot(1)["location"] != haeMaanLentokentat(lentokentta["maa"])[0]:
-              maat.append((f"{maa_tiedot[0][0]} {chalk.red(f"-{round(lentokentta["co2Lennolta"], 2)} kg CO₂")}", haeMaanLentokentat(lentokentta["maa"])))
+  lentokentat = []
+  for data in lentokentatRaw:
+      lentokentan_tiedot = haeLentokentanTiedot("name", "ident", data["lentokentta"])
+      if round(data["co2Lennolta"], 2) <= haePelaajanTiedot(1)["co2_budget"] - haePelaajanTiedot(1)["co2_consumed"]:
+         if haePelaajanTiedot(1)["location"] != data['lentokentta']: 
+          lentokentat.append((f"{lentokentan_tiedot[0]} {chalk.red(f"-{round(data["co2Lennolta"], 2)} kg CO₂")}", data['lentokentta']))
   print(f"Calculated routes to {len(lentokentat)} countries.")
-  return maat
+  return lentokentat
    
 
 def valitseSeuraavaLentokentta(location):
@@ -26,14 +24,14 @@ def valitseSeuraavaLentokentta(location):
   print("You are in", chalk.green(haePelaajanNykyinenMaa(pelaajanTiedot["location"])))
   print("You can emit a total of", chalk.green(pelaajanTiedot["co2_budget"]-pelaajanTiedot["co2_consumed"]), "kg CO₂")
 
-  maat = lentokentat(location)
-  if not maat:
+  lentokenttaLista = lentokentat(location)
+  if not lentokenttaLista:
      return
   # Create the question with dynamic choices
   questions = [
-      inquirer.List('maa',
-                    message=f"Where would you like to fly? ({len(maat)})",
-                    choices=maat,  # Use the dynamically generated list
+      inquirer.List('lentokentta',
+                    message=f"Where would you like to fly? ({len(lentokenttaLista)})",
+                    choices=lentokenttaLista,  # Use the dynamically generated list
                 ),
   ]
 
@@ -41,11 +39,11 @@ def valitseSeuraavaLentokentta(location):
   answers = inquirer.prompt(questions)
 
   # Print the selected answer
-  print("You selected:", answers["maa"][0])
+  print("You selected:", answers["lentokentta"])
 
-  lento = lenna(answers["maa"][0], haePelaajanTiedot(1)["location"], 1, 1)
+  lento = lenna(answers["lentokentta"], haePelaajanTiedot(1)["location"], 1, 1)
 
-  return answers["maa"][0]
+  return answers["lentokentta"]
 
 def testiTehtava():
   questions = [

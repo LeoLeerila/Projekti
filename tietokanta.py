@@ -66,7 +66,7 @@ def haeMaanLentokentat(iso_country):
     return tulos
 
 def haeLentokentat():
-    sql = f'SELECT ident FROM airport'
+    sql = f'SELECT ident FROM airport WHERE type = "large_airport"'
     kursori.execute(sql)
     try:
         tulos = kursori.fetchall()
