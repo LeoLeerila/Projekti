@@ -31,12 +31,8 @@ def paivita():
     paivitaPelaajanTiedot(args.get("pelaajanID"), args.get("paivitettavaTieto"), args.get("tiedonArvo"))
     return f"Pelaajan {args.get("pelaajanID")} tieto {args.get("paivitettavaTieto")} muutettu {args.get("tiedonArvo")}"
 
-def funcPaivitaPelaajanTiedot(pelaajanID, paivitettavaTieto, tiedonArvo):
-    paivitaPelaajanTiedot(pelaajanID, paivitettavaTieto, tiedonArvo)
 
-def funcNollaaPelaajanTiedot(pelaajanID):
-    nollaaPelaajanTiedot(pelaajanID)
-    return f"Pelaajan {pelaajanID} tiedot nollattu"
+
 
 if __name__ == "__main__":
     app.run(use_reloader=True, host="127.0.0.1", port=3000)
