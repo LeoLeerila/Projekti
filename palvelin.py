@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_cors import CORS
 
 from tietokanta import haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot
 from lopetus import voitto, havio
@@ -6,6 +7,11 @@ from kayttoliittyma import valitseSeuraavaLentokentta
 from PeliTehtavat import kysymys
 
 app = Flask(__name__)
+
+cors = CORS(app)
+
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 #Tietokannan funktiot
 @app.route("/PelaajanTiedot/hae/")#http://127.0.0.1:3000/PelaajanTiedot/hae/?pelaajanID=1
