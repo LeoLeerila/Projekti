@@ -29,7 +29,6 @@ def nollaa():
 @app.route("/PelaajanTiedot/paivita/")#http://127.0.0.1:3000/PelaajanTiedot/paivita/?pelaajanID=1&paivitettavaTieto=co2_consumed&tiedonArvo=100
 def paivita():
     args = request.args
-    print(args)
     paivitaPelaajanTiedot(args.get("pelaajanID"), args.get("paivitettavaTieto"), args.get("tiedonArvo"))
     return f"Pelaajan {args.get("pelaajanID")} tieto {args.get("paivitettavaTieto")} muutettu {args.get("tiedonArvo")}"
 
@@ -43,6 +42,12 @@ def Lopetusvoitto():
 def Lopetushavio():
     #havio()
     return "Pelaaja hävisi pelin"
+
+#lentokentät
+@app.route("/Lentokentta/")
+def Lentokentta():
+    args = request.args
+    valitseSeuraavaLentokentta(args.get(""))
 
 if __name__ == "__main__":
     app.run(use_reloader=True, host="127.0.0.1", port=3000)
