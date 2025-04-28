@@ -19,7 +19,7 @@ while peliKaynnissa == 1:
     #päivitetään pelaajaan tiedot
     pelaajanTiedot = haePelaajanTiedot(1)
     #pelaaja valitsee seuraavan maan johon lentää
-    maa = valitseSeuraavaLentokentta(pelaajanTiedot["location"])
+    maa = valitseSeuraavaLentokentta(pelaajanTiedot["location"], pelaajanTiedot["id"])
     #jos pelaajan co2_consumed on liian suuri eikä hän voi lentää uuteen maahan peli päättyy
     if pelaajanTiedot["co2_consumed"] >= pelaajanTiedot["co2_budget"] or not maa:
         peliKaynnissa = 0
