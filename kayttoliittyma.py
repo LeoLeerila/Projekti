@@ -5,26 +5,26 @@ import chalk
 import random
 
 
-def lentokentat(lahtoSijainti, pelaajanID):
+def lentokentat(lahtoSijainti, pelaajanTiedot):
   # Get the list of airports
   lentokentatRaw = laskeLennonPituus(lahtoSijainti, "*")
 
   lentokentat = []
   for data in lentokentatRaw:
       lentokentan_tiedot = haeLentokentanTiedot("name", "ident", data["lentokentta"])
-      if round(data["co2Lennolta"], 2) <= haePelaajanTiedot(1)["co2_budget"] - haePelaajanTiedot(1)["co2_consumed"]:
-         if haePelaajanTiedot(1)["location"] != data['lentokentta']: 
+      if round(data["co2Lennolta"], 2) <= pelaajanTiedot["co2_budget"] - pelaajanTiedot["co2_consumed"]:
+         if pelaajanTiedot["location"] != data['lentokentta']: 
           lentokentat.append((f"{lentokentan_tiedot[0]} {chalk.red(f"-{round(data["co2Lennolta"], 2)} kg CO₂")}", data['lentokentta']))
   print(f"Calculated routes to {len(lentokentat)} countries.")
   return lentokentat
    
 
 def valitseSeuraavaLentokentta(location, pelaajanID):
-  pelaajanTiedot = haePelaajanTiedot(1)#(1) muutetaan (pelaajanID)
+  pelaajanTiedot = haePelaajanTiedot(pelaajanID)
   print("You are in", chalk.green(haePelaajanNykyinenMaa(pelaajanTiedot["location"])))
   print("You can emit a total of", chalk.green(pelaajanTiedot["co2_budget"]-pelaajanTiedot["co2_consumed"]), "kg CO₂")
 
-  lentokenttaLista = lentokentat(location)
+  lentokenttaLista = lentokentat(location, pelaajanTiedot)
   if not lentokenttaLista:
      return
   # Create the question with dynamic choices
@@ -41,7 +41,7 @@ def valitseSeuraavaLentokentta(location, pelaajanID):
   # Print the selected answer
   print("You selected:", answers["lentokentta"])
 
-  lento = lenna(answers["lentokentta"], haePelaajanTiedot(1)["location"], 1, 1)
+  lento = lenna(answers["lentokentta"], pelaajanTiedot["location"], 1, 1)
 
   return answers["lentokentta"]
 
