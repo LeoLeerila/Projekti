@@ -5,7 +5,7 @@ import chalk
 import random
 
 
-def lentokentat(lahtoSijainti):
+def lentokentat(lahtoSijainti, pelaajanID):
   # Get the list of airports
   lentokentatRaw = laskeLennonPituus(lahtoSijainti, "*")
 
@@ -19,8 +19,8 @@ def lentokentat(lahtoSijainti):
   return lentokentat
    
 
-def valitseSeuraavaLentokentta(location):
-  pelaajanTiedot = haePelaajanTiedot(1)
+def valitseSeuraavaLentokentta(location, pelaajanID):
+  pelaajanTiedot = haePelaajanTiedot(1)#(1) muutetaan (pelaajanID)
   print("You are in", chalk.green(haePelaajanNykyinenMaa(pelaajanTiedot["location"])))
   print("You can emit a total of", chalk.green(pelaajanTiedot["co2_budget"]-pelaajanTiedot["co2_consumed"]), "kg CO₂")
 
