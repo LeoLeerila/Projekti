@@ -31,6 +31,8 @@ body {
     font-family: 'VT323', monospace;
     font-size: 20px;
     line-height: 1.4;
+    overflow-y: auto;           /* Enable vertical scrolling */
+    overflow-x: auto;
     width: 40rem;
     height: 30rem;
     padding-top: 1rem;
