@@ -45,6 +45,41 @@ def valitseSeuraavaLentokentta(location, pelaajanID):
 
   return answers["lentokentta"]
 
+def palvelinSeuraavaLentokentta(pelaajanID):
+  pelaajanTiedot = haePelaajanTiedot(pelaajanID)
+
+  pelaajanNykyinenInfo = [f"You are in, {haePelaajanNykyinenMaa(pelaajanTiedot["location"])}", f"You can emit a total of, {pelaajanTiedot["co2_budget"]-pelaajanTiedot["co2_consumed"]}, kg CO₂"]
+
+  lentokenttaLista = lentokentat(pelaajanTiedot["location"], pelaajanTiedot)
+  if not lentokenttaLista:
+     return "0"
+  
+  vastaus = {
+     "nykyInfoTexti": pelaajanNykyinenInfo,
+     "nykySijainti": haePelaajanNykyinenMaa(pelaajanTiedot["location"]),
+     "nykyCO2": (pelaajanTiedot["co2_budget"]-pelaajanTiedot["co2_consumed"]),
+     "lentokenttaLista": lentokenttaLista
+  }
+
+  """
+  # Create the question with dynamic choices
+  questions = [
+      inquirer.List('lentokentta',
+                    message=f"Where would you like to fly? ({len(lentokenttaLista)})",
+                    choices=lentokenttaLista,  # Use the dynamically generated list
+                ),
+  ]
+
+  # Prompt the user
+  answers = inquirer.prompt(questions)
+
+  # Print the selected answer
+  print("You selected:", answers["lentokentta"])
+
+  lento = lenna(answers["lentokentta"], pelaajanTiedot["location"], 1, pelaajanTiedot["id"])
+  """
+  return vastaus
+
 def testiTehtava():
   questions = [
       inquirer.List('tehtava',
