@@ -41,7 +41,7 @@ def valitseSeuraavaLentokentta(location, pelaajanID):
   # Print the selected answer
   print("You selected:", answers["lentokentta"])
 
-  lento = lenna(answers["lentokentta"], pelaajanTiedot["location"], 1, 1)
+  lento = lenna(answers["lentokentta"], pelaajanTiedot["location"], 1, pelaajanTiedot["id"])
 
   return answers["lentokentta"]
 
