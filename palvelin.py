@@ -3,8 +3,9 @@ from flask_cors import CORS
 
 from tietokanta import haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot
 from lopetus import voitto, havio
-from kayttoliittyma import valitseSeuraavaLentokentta
+from kayttoliittyma import palvelinSeuraavaLentokentta
 from PeliTehtavat import kysymys
+from lentokone import lenna
 
 app = Flask(__name__)
 
@@ -44,10 +45,17 @@ def Lopetushavio():
     return "Pelaaja hävisi pelin"
 
 #lentokentät
-@app.route("/Lentokentta/")
-def Lentokentta():
+@app.route("/Lentokentta/vaihtoehdot/")#http://127.0.0.1:3000/Lentokentta/vaihtoehdot/?pelaajanID=1
+def vaihtoehdot():
     args = request.args
-    valitseSeuraavaLentokentta(args.get(""))
+    vastaus = palvelinSeuraavaLentokentta(args.get("pelaajanID"))
+    return vastaus
+
+@app.route("/Lentokentta/uusi/")#http://127.0.0.1:3000/Lentokentta/uusi/?pelaajanID=1&uusiLentokentta=ICAO&nykySijainti=ICAO&paivitaPelaaja=1
+def uusi():
+    args = request.args
+    vastaus = lenna(args.get("uusiLentokentta"), args.get("nykySijainti"), args.get("paivitaPelaaja"), args.get("pelaajanID"))
+    return vastaus
 
 if __name__ == "__main__":
     app.run(use_reloader=True, host="127.0.0.1", port=3000)
