@@ -1,54 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fi">
 <head>
   <meta charset="UTF-8">
-  <title>Select Profile - Flight Game</title>
+  <title>Valitse profiili - Miehen Salainen Matka</title>
   <link rel="stylesheet" href="auth.css">
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="terminal profile-container">
-    <h1>ROBCO INDUSTRIES UNIFIED OPERATING SYSTEM</h1>
-    <h2>-- FLIGHT OPERATIONS LOGIN TERMINAL --</h2>
+    <h1>MIEHEN SALAINEN MATKA</h1>
+    <h2>-- THAIMAA --</h2>
 
     <div class="section">
-      <label>> SELECT EXISTING PROFILE:</label>
+      <label>> VALITSE OLEMASA OLEVA PELAAJA:</label>
       <select id="existing-user">
-        <option value="">-- Select Profile --</option>
-        <option value="captain_lee">Captain Lee</option>
-        <option value="pilot_vega">Pilot Vega</option>
-        <option value="cmdr_kowalski">Cmdr Kowalski</option>
+        <option value="">-- Valitse pelaaja --</option>
       </select>
-      <button onclick="startGameFromSelection()">[ LOAD PROFILE ]</button>
+      <button id="btn-load">[ LATAA PELAAJA ]</button>
     </div>
 
     <div class="divider"></div>
 
     <div class="section">
-      <label>> CREATE NEW PROFILE:</label>
-      <input type="text" id="new-user" placeholder="Enter new username">
-      <button onclick="startGameFromNew()">[ CREATE + START ]</button>
+      <label>> LUO UUSI PELAAJA:</label>
+      <input type="text" id="new-user" placeholder="Syötä käyttäjänimi">
+      <button id="btn-create">[ LUO JA ALOITA ]</button>
     </div>
   </div>
 
-  <script>
-    function startGameFromSelection() {
-      const selected = document.getElementById("existing-user").value;
-      if (selected) {
-        window.location.href = `index.html?user=${encodeURIComponent(selected)}`;
-      } else {
-        alert("Please select a profile.");
-      }
-    }
-
-    function startGameFromNew() {
-      const newUser = document.getElementById("new-user").value.trim();
-      if (newUser) {
-        window.location.href = `index.html?user=${encodeURIComponent(newUser)}`;
-      } else {
-        alert("Please enter a username.");
-      }
-    }
-  </script>
+  <script src="auth.js"></script>
 </body>
 </html>

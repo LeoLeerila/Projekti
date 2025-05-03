@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Flight Game - Fallout Style</title>
+  <link rel="stylesheet" href="game.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="chat-box terminal">
+      <!-- Placeholdereita -->
+      <div class="chat-title">[MESSAGES - WIFE]</div>
+      <div class="chat-message">> Tässä minä yksin kotona, seurana vain sarkasmi ja kylmä kahvi. ☕️🧊</div>
+      <div class="chat-message">> Aika jännä – sulla on aikaa juoda drinkkejä, muttei lähettää yhtä viestiä.
+        Prioriteetit kohdallaan! 🍹📲</div>
+      <div class="chat-message">> Sanoin että mene lomalle, en että unohda että oot naimisissa. 🔔💍</div>
+    </div>
+
+    <div class="map terminal" id="world-map">
+      <div class="map-title">[WORLD MAP]</div>
+    </div>
+
+
+
+    <div class="player-stats terminal">
+      <div class="stats-title">[PELAAJAN TIEDOT]</div>
+      <div id="stat-co2-consumed">> CO2 käytetty: ...</div>
+      <div id="stat-co2-budget">> CO2 budjetti: ...</div>
+      <div id="stat-distance">> Lennettymatka: ...</div>
+      <div id="stat-time">> Lentoaika: ...</div>
+    </div>
+
+    <div class="player-image terminal">
+      <div>[PLAYER IMAGE FEED]</div>
+
+      <!-- Placeholdereita -->
+      <img src="https://i.imgflip.com/2e9dse.jpg" alt="">
+    </div>
+
+    <div class="terminal flight-computer" id="flight-computer">
+      <div class="terminal-title">[ FLIGHT COMPUTER ]</div>
+      <div id="flight-options" class="terminal-list">
+      </div>
+    </div>
+    
+
+
+  </div>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="terminal.js"></script>
+  <script src="game.js"></script>
+</body>
+
+</html>

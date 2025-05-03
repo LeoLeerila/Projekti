@@ -47,18 +47,25 @@ def valitseSeuraavaLentokentta(location, pelaajanID):
 
 def palvelinSeuraavaLentokentta(pelaajanID):
   pelaajanTiedot = haePelaajanTiedot(pelaajanID)
-
-  pelaajanNykyinenInfo = [f"You are in, {haePelaajanNykyinenMaa(pelaajanTiedot["location"])}", f"You can emit a total of, {pelaajanTiedot["co2_budget"]-pelaajanTiedot["co2_consumed"]}, kg CO₂"]
-
-  lentokenttaLista = lentokentat(pelaajanTiedot["location"], pelaajanTiedot)
-  if not lentokenttaLista:
-     return "0"
   
+  # Get the list of airports
+  lentokentatRaw = laskeLennonPituus(pelaajanTiedot["location"], "*")
+
+  lentokentat = []
+  for data in lentokentatRaw:
+      lentokentan_tiedot = haeLentokentanTiedot("name", "ident", data["lentokentta"])
+      if round(data["co2Lennolta"], 2) <= pelaajanTiedot["co2_budget"] - pelaajanTiedot["co2_consumed"]:
+         if pelaajanTiedot["location"] != data['lentokentta']: 
+          lentokentat.append({
+             "lentokentan_nimi": lentokentan_tiedot[0],
+             "co2Lennolta": data["co2Lennolta"],
+             "icao": data['lentokentta']
+          })
+  print(f"Calculated routes to {len(lentokentat)} countries.")
   vastaus = {
-     "nykyInfoTexti": pelaajanNykyinenInfo,
      "nykySijainti": haePelaajanNykyinenMaa(pelaajanTiedot["location"]),
      "nykyCO2": (pelaajanTiedot["co2_budget"]-pelaajanTiedot["co2_consumed"]),
-     "lentokenttaLista": lentokenttaLista
+     "lentokenttaLista": lentokentat
   }
 
   """
