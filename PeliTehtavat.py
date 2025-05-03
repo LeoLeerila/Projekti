@@ -28,3 +28,17 @@ def kysymys():
 
     else:
         print("väärä vastaus")
+
+def palvelinKysymys():
+    N = random.randint(1, 50)
+    oikeavastaus = annavastaus(N)[0][0]
+    kysymys = annakysymys(N)[0]
+    #print(kysymys)
+    #print(oikeavastaus)
+    lista = [annakysymysVaihtoehto(N, 1)[0], annakysymysVaihtoehto(N, 2)[0], annakysymysVaihtoehto(N, 3)[0]]
+    kysymykset = {
+        "kysymys": kysymys,
+        "mahdollisetVastaukset": lista,
+        "oikeaVastaus": oikeavastaus
+    }
+    return kysymykset
