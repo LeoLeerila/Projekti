@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="Viestit.js" defer></script>
+  <link href="ViestitStyle.css" rel="stylesheet">
+  <title>Vaimon-Viestit</title>
+  <style>
+
+  </style>
+</head>
+<body>
+
+  <h2 id="title">Odota viestiä vaimolta...</h2>
+  <button id="showFormBtn" onclick="openForm()">Näytä viesti</button>
+
+  <div class="chat-popup" id="myForm">
+    <form class="form-container" onsubmit="event.preventDefault()">
+      <h3>WHATSAPP</h3>
+
+      <label for="msg"><b>Viesti Vaimolta</b></label>
+      <textarea name="msg" readonly placeholder="Vaimo kirjoittaa..."></textarea>
+
+      <br>
+      <button type="button" class="btn respond" onclick="appendToDisplay()">Vastaa</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Jätä vastaamatta</button>
+    </form>
+  </div>
+
+  <script>
+
+  </script>
+
+</body>
+</html>
