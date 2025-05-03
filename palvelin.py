@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from tietokanta import haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot, haeKaikkiPelaajat, lisaaUusiPelaaja
+from tietokanta import haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot, haeKaikkiPelaajat, lisaaUusiPelaaja, haeLentokentanTiedot, haePelaajanNykyinenMaa, haeMaanTiedot
 from lopetus import voitto, havio
 from kayttoliittyma import palvelinSeuraavaLentokentta
 from PeliTehtavat import palvelinKysymys
@@ -42,7 +42,10 @@ def uusi_pelaaja():
 def hae():
     args = request.args
     vastaus = haePelaajanTiedot(args.get("pelaajanID"))
-    return vastaus
+    sijainti = haePelaajanNykyinenMaa(vastaus["location"])
+
+    # | mergaa kaksi sanakirjaa yhteen
+    return vastaus | {"country_name":sijainti}
 
 @app.route("/PelaajanTiedot/nollaa/")#http://127.0.0.1:3000/PelaajanTiedot/nollaa/?pelaajanID=1
 def nollaa():
@@ -80,6 +83,36 @@ def uusi():
 
     vastaus = lenna(args.get("uusiLentokentta"), args.get("nykySijainti"), int(args.get("paivitaPelaaja")), args.get("pelaajanID"))
     return vastaus
+
+@app.route("/Lentokentta/tiedot/")#http://127.0.0.1:3000/Lentokentta/tiedot/?icao=EFHK
+def tiedot():
+    args = request.args
+    vastaus = haeLentokentanTiedot("*", "ident", args.get("icao"))
+    sijainti = haeMaanTiedot("name", "iso_country", vastaus[8])[0][0]
+
+    json = {
+        "id": vastaus[0],
+        "ident": vastaus[1],
+        "type": vastaus[2],
+        "name": vastaus[3],
+        "latitude_deg": vastaus[4],
+        "longitude_deg": vastaus[5],
+        "elevation_ft": vastaus[6],
+        "continent": vastaus[7],
+        "iso_country": vastaus[8],
+        "iso_region": vastaus[9],
+        "municipality": vastaus[10],
+        "scheduled_service": vastaus[11],
+        "gps_code": vastaus[12],
+        "iata_code": vastaus[13],
+        "local_code": vastaus[14],
+        "home_link": vastaus[15],
+        "wikipedia_link": vastaus[16],
+        "keywords": vastaus[17],
+        "country_name": sijainti
+    }
+
+    return json
 
 #kysymykset
 @app.route("/kysymykset/kysymys/")#http://127.0.0.1:3000/kysymykset/kysymys/

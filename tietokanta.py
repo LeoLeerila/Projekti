@@ -10,7 +10,7 @@ yhteys = mysql.connector.connect(
     password='pelaajansalasana',
     autocommit=True
 )
-kursori = yhteys.cursor()
+kursori = yhteys.cursor(buffered=True)
 
 def haeKaikkiPelaajat():
     """
@@ -35,7 +35,7 @@ def lisaaUusiPelaaja(nimi):
     # Lisätään uusi pelaaja
     sql = """
     INSERT INTO game (co2_consumed, co2_budget, location, screen_name, time, km_total)
-    VALUES (0, 1000, 'EFHK', %s, 0, 0)
+    VALUES (0, 100, 'EFHK', %s, 0, 0)
     """
     kursori.execute(sql, (nimi,))
     return kursori.lastrowid
@@ -43,7 +43,7 @@ def lisaaUusiPelaaja(nimi):
 def haePelaajanTiedot(pelaajanId):
     #haetut pelaajan arvot ovat järjestykseesä
     #id, co2_consumed, co2_budget, location, screen_name, time
-    sql = f'SELECT * FROM game WHERE id = "{pelaajanId}"'
+    sql = f'SELECT game.*, airport.name FROM game LEFT JOIN airport ON game.location = airport.ident WHERE game.id = "{pelaajanId}"'
     kursori.execute(sql)
     tulos = kursori.fetchall()[0]
 
@@ -54,8 +54,9 @@ def haePelaajanTiedot(pelaajanId):
     "location": tulos[3],
     "screen_name": tulos[4],
     "time": tulos[5],
-    "km_total": tulos[6]
-}
+    "km_total": tulos[6],
+    "location_name": tulos[7]
+    }
     return tulos
 
 def haePelaajanNykyinenMaa(location):
@@ -158,7 +159,7 @@ def paivitaPelaajanTiedot(pelaajanId, paivitettavaTieto, tiedonArvo):
     pass
 
 def nollaaPelaajanTiedot(pelaajanId):
-    sql = f'UPDATE game SET co2_consumed = "0", co2_budget = "100", location = "EFHK", screen_name = "PLAYER", time = "0", km_total = "0" WHERE id = "{pelaajanId}";'
+    sql = f'UPDATE game SET co2_consumed = "0", co2_budget = "100", location = "EFHK", time = "0", km_total = "0" WHERE id = "{pelaajanId}";'
     kursori.execute(sql)
     pass
 

@@ -59,7 +59,8 @@ def palvelinSeuraavaLentokentta(pelaajanID):
           lentokentat.append({
              "lentokentan_nimi": lentokentan_tiedot[0],
              "co2Lennolta": data["co2Lennolta"],
-             "icao": data['lentokentta']
+             "icao": data['lentokentta'],
+             "maa": haePelaajanNykyinenMaa(data['lentokentta'])
           })
   print(f"Calculated routes to {len(lentokentat)} countries.")
   vastaus = {
