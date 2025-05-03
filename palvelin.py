@@ -1,7 +1,7 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from tietokanta import haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot
+from tietokanta import haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot, haeKaikkiPelaajat, lisaaUusiPelaaja
 from lopetus import voitto, havio
 from kayttoliittyma import palvelinSeuraavaLentokentta
 from PeliTehtavat import kysymys
@@ -13,8 +13,31 @@ cors = CORS(app)
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-
 #Tietokannan funktiot
+@app.route("/Pelaajat/kaikki/")
+def kaikki_pelaajat():
+    """
+    Palauttaa JSON-listan kaikista olemassa olevista pelaajista.
+    """
+    return jsonify(haeKaikkiPelaajat())
+
+@app.route("/Pelaajat/uusi/")
+def uusi_pelaaja():
+    """
+    Luo uusi pelaajaprofiili annetulla nimellä (nimi-parametri).
+    Esim: /Pelaajat/uusi/?nimi=Testi
+    """
+    args = request.args
+    nimi = args.get("nimi")
+    if not nimi:
+        return "Nimi puuttuu", 400
+
+    try:
+        uusi_id = lisaaUusiPelaaja(nimi)
+        return jsonify({"status": "OK", "id": uusi_id, "nimi": nimi})
+    except Exception as e:
+        return jsonify({"status": "ERROR", "message": str(e)}), 500
+    
 @app.route("/PelaajanTiedot/hae/")#http://127.0.0.1:3000/PelaajanTiedot/hae/?pelaajanID=1
 def hae():
     args = request.args
