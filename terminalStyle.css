@@ -1,4 +1,4 @@
-body {
+.structure {
     margin: 0;
     background-color: white; /* Background for the rest of the page */
     display: flex;
