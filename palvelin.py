@@ -77,7 +77,8 @@ def vaihtoehdot():
 @app.route("/Lentokentta/uusi/")#http://127.0.0.1:3000/Lentokentta/uusi/?pelaajanID=1&uusiLentokentta=ICAO&nykySijainti=ICAO&paivitaPelaaja=1
 def uusi():
     args = request.args
-    vastaus = lenna(args.get("uusiLentokentta"), args.get("nykySijainti"), args.get("paivitaPelaaja"), args.get("pelaajanID"))
+
+    vastaus = lenna(args.get("uusiLentokentta"), args.get("nykySijainti"), int(args.get("paivitaPelaaja")), args.get("pelaajanID"))
     return vastaus
 
 if __name__ == "__main__":
