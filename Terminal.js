@@ -64,13 +64,61 @@ async function Lenna() {
   }
 }
 
-function Kysymys() {
-  Terminal.innerHTML = ``;
-  Home.innerHTML = ``;
-  Hae()
-  let p = document.createElement('h2')
-  p.innerHTML = `Jos haluat jatkaa, joudut vastaamaan kysymykseen:`;
-  Terminal.appendChild(p);
+async function Kysymys() {
+  if (game) {
+    Terminal.innerHTML = ``;
+    Home.innerHTML = ``;
+    Hae()
+    let Data = document.createElement('div');
+    let p = document.createElement('h1')
+    p.innerHTML = `Jos haluat jatkaa, joudut vastaamaan kysymykseen:`;
+    Data.appendChild(p);
+    try {
+      const response = await fetch('http://127.0.0.1:3000/kysymykset/kysymys/')
+      const jsonData = await response.json();
+      console.log(jsonData)
+      const question = jsonData.kysymys;
+      let A = document.createElement('h3')
+      A.innerHTML = question
+      Data.appendChild(A)
+      for (let i = 0; i < jsonData.mahdollisetVastaukset.length; i++) {
+        let P = document.createElement('p')
+        P.innerHTML = jsonData.mahdollisetVastaukset[i];
+        P.addEventListener("click", function() {
+          if (P.innerHTML === jsonData.oikeaVastaus) {
+            Terminal.innerHTML = ``
+            const H = document.createElement('h3')
+            H.innerHTML = `Oikein!`
+            Update()
+            const d = document.createElement('p')
+            d.innerHTML = 'jatka'
+            //d.addEventListener("click", function() {
+            //  ValitseLkenttä()
+            //});
+            Terminal.appendChild(H)
+            Terminal.appendChild(d)
+          }
+          else {
+            Terminal.innerHTML = ``
+            const H = document.createElement('h3')
+            H.innerHTML = `Väärin.`
+            const d = document.createElement('p')
+            d.innerHTML = 'jatka'
+            //d.addEventListener("click", function() {
+            //  ValitseLkenttä()
+            //});
+            Terminal.appendChild(H)
+            Terminal.appendChild(d)
+          }
+
+        });
+        Data.appendChild(P)
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+    Terminal.appendChild(Data)
+  }
 }
 
 async function ValitseLkenttä() {
@@ -104,6 +152,16 @@ async function ValitseLkenttä() {
   }
   }
 
+}
+
+async function Update() {
+  try {
+    const response = await fetch('http://127.0.0.1:3000/PelaajanTiedot/paivita/?pelaajanID=1&paivitettavaTieto=co2_budget&tiedonArvo=100');
+    const jsonData = await response.json();
+    console.log('co update')
+  } catch (error) {
+      console.log(error.message);
+  }
 }
 async function Hae() {
   try {

@@ -60,6 +60,12 @@
     color: indianred;
 }
 
+.Terminal h3 {
+    color: lime;
+}
+
+
+
 .Terminal h2:hover {
     color: red;
 }
