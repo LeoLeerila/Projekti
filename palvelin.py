@@ -4,7 +4,7 @@ from flask_cors import CORS
 from tietokanta import haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot, haeKaikkiPelaajat, lisaaUusiPelaaja
 from lopetus import voitto, havio
 from kayttoliittyma import palvelinSeuraavaLentokentta
-from PeliTehtavat import kysymys
+from PeliTehtavat import palvelinKysymys
 from lentokone import lenna
 
 app = Flask(__name__)
@@ -80,6 +80,13 @@ def uusi():
 
     vastaus = lenna(args.get("uusiLentokentta"), args.get("nykySijainti"), int(args.get("paivitaPelaaja")), args.get("pelaajanID"))
     return vastaus
+
+#kysymykset
+@app.route("/kysymykset/kysymys/")#http://127.0.0.1:3000/kysymykset/kysymys/
+def kysymys():
+    return palvelinKysymys()
+
+
 
 if __name__ == "__main__":
     app.run(use_reloader=True, host="127.0.0.1", port=3000)
