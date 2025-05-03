@@ -67,3 +67,7 @@ body {
 .Terminal p {
     color: lawngreen;
 }
+
+.Terminal p:hover {
+    color: red;
+}
