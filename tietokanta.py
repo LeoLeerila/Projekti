@@ -12,7 +12,33 @@ yhteys = mysql.connector.connect(
 )
 kursori = yhteys.cursor()
 
+def haeKaikkiPelaajat():
+    """
+    Hakee kaikki pelaajaprofiilit tietokannasta.
+    Palauttaa listan sanakirjoja, joissa on pelaajan ID ja nimi.
+    """
+    sql = "SELECT id, screen_name FROM game ORDER BY id ASC"
+    kursori.execute(sql)
+    return [{"id": r[0], "screen_name": r[1]} for r in kursori.fetchall()]
 
+def lisaaUusiPelaaja(nimi):
+    """
+    Lisää uusi pelaaja 'game'-tauluun oletusarvoilla.
+    Palauttaa uuden pelaajan ID:n.
+    """
+    # Tarkistetaan onko nimi jo käytössä (valinnainen lisäominaisuus)
+    sql_check = "SELECT COUNT(*) FROM game WHERE screen_name = %s"
+    kursori.execute(sql_check, (nimi,))
+    if kursori.fetchone()[0] > 0:
+        raise Exception("Nimi on jo olemassa.")
+
+    # Lisätään uusi pelaaja
+    sql = """
+    INSERT INTO game (co2_consumed, co2_budget, location, screen_name, time, km_total)
+    VALUES (0, 1000, 'EFHK', %s, 0, 0)
+    """
+    kursori.execute(sql, (nimi,))
+    return kursori.lastrowid
 
 def haePelaajanTiedot(pelaajanId):
     #haetut pelaajan arvot ovat järjestykseesä
