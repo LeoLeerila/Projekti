@@ -19,7 +19,7 @@ CREATE USER 'pelaaja'@localhost IDENTIFIED BY 'pelaajansalasana';
 CREATE DATABASE flight_game_projekti;
 ```
 
-#### Valitse tietokanta ja anna käyttäjälle kaikki oikeudet
+#### Valitse tietokanta ja anna käyttäjälle kaikki oikeudet tietokantaan
 ```sql
 USE flight_game_projekti;
 GRANT ALL PRIVILEGES ON flight_game_projekti.* TO 'pelaaja'@localhost IDENTIFIED BY 'pelaajansalasana';

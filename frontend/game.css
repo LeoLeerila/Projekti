@@ -198,7 +198,6 @@ body {
 .player-stats {
   grid-row: 2 / 2;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
   padding: 20px;
   font-size: 1.3em;
