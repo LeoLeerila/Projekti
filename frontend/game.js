@@ -376,12 +376,12 @@ vaimo()
 
 function kirjauduUlos() {
     // Kirjauduttuessa ulos pelaaja ohjataan vain kirjautumis sivulle.
-    window.location.href = "authentication.html";
+    lisaaJonoon(() => window.location.href = "authentication.html");
 }
 
 async function poistaPelaaja() {
     // Postaa pelaajan kannasta kokonaan.
-    await fetch(`${PALVELIN_OSOITE}/PelaajanTiedot/poista/?pelaajanID=${pelaajanID}`);
+    lisaaJonoon(async () =>await fetch(`${PALVELIN_OSOITE}/PelaajanTiedot/poista/?pelaajanID=${pelaajanID}`));
     kirjauduUlos();
 }
 
