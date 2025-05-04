@@ -5,6 +5,8 @@ let pelaajanTiedot;
 let kartta, merkkiLahto, merkkiKohde, lentoViiva;
 let valittuKohde, lentoTiedot, viimeksiValittuIcao;
 
+const TEHTAVA_PISTE_KERROIN = 2; // Okeasta vastauksesta co2-budjetin lisä pisteet lasketaan kaavalla: lennon co2 kulutus * TEHTAVA_PISTE_KERROIN
+
 // Jonojärjestelmä varmistaa, että vain yksi tehtävä suoritetaan kerrallaan, jottei backend ruuhkaannu.
 let onVarattu = false;
 const pyyntoJono = [];
@@ -73,7 +75,7 @@ async function paivitaTilastot() {
     const el = (id) => document.getElementById(id);
     el("stat-name").textContent = `> Nimi: ${pelaajanTiedot.screen_name}`;
     el("stat-location").textContent = `> Sijainti: ${pelaajanTiedot.location_name}`;
-    el("stat-co2-budget").textContent = `> CO2 budjetti: ${pelaajanTiedot.co2_budget - pelaajanTiedot.co2_consumed}`;
+    el("stat-co2-budget").textContent = `> CO2-budjetti: ${pelaajanTiedot.co2_budget - pelaajanTiedot.co2_consumed} kg CO₂`;
     el("stat-distance").textContent = `> Lennetty matka: ${pelaajanTiedot.km_total} km`;
     el("stat-time").textContent = `> Lentoaika: ${pelaajanTiedot.time} h`;
 }
@@ -100,10 +102,11 @@ function piirraLento(lahto, kohde, tiedot) {
 
     merkkiLahto = L.circleMarker(lahto, merkinTyyli()).addTo(kartta).bindPopup("Lähtö");
     merkkiKohde = L.circleMarker(kohde, merkinTyyli()).addTo(kartta).bindPopup(`
-    <b>Lento</b><br>
+    <b>Lento kohteeseen ${tiedot.lentokentta.name} [${tiedot.lentokentta.country_name}]</b><br>
     Matka: ${tiedot.matkanpituus.toFixed(1)} km<br>
     Aika: ${tiedot.kesto.toFixed(1)} h<br>
-    CO₂-kulutus: ${tiedot.co2Lennolta.toFixed(1)} kg
+    CO₂-kulutus: ${tiedot.co2Lennolta.toFixed(1)} kg CO₂<br>
+    Oikean vastauksen pisteet: +${(tiedot.co2Lennolta * TEHTAVA_PISTE_KERROIN).toFixed(1)} kg CO₂
   `).openPopup();
 
     lentoViiva = L.polyline([lahto, kohde], {
@@ -113,7 +116,7 @@ function piirraLento(lahto, kohde, tiedot) {
         opacity: 0.7
     }).addTo(kartta);
 
-    kartta.fitBounds(L.latLngBounds([lahto, kohde]), { padding: [80, 80] });
+    kartta.fitBounds(L.latLngBounds([lahto, kohde]), { padding: [150, 150] });
 }
 
 async function haeLentokenttaVaihtoehdot() {
@@ -149,9 +152,9 @@ async function haeLentokenttaVaihtoehdot() {
     const vaihtoehdot = document.getElementById('flight-options');
     vaihtoehdot.innerHTML = "";
     // Sortataan lentokentät co2 kulutuksenmukaan niin että lentotietokoneessa lentokentät näkyvät vähiten kuluttavat matkat ensin.
-    console.log(lentokenttaLista)
-    lentokenttaLista.sort((a, b) => a.maa.localeCompare(b.maa));
-    console.log(lentokenttaLista)
+    //console.log(lentokenttaLista)
+    lentokenttaLista.sort((a, b) => a.co2Lennolta - b.co2Lennolta);
+    //console.log(lentokenttaLista)
     lentokenttaLista.forEach(kentta => {
         const nappi = document.createElement('button');
         nappi.className = "confirm-button";
@@ -168,7 +171,7 @@ async function kasitteleValinta(kentta) {
     // Jos lentokenttää on klikattu kaksi kertaa lentotietokoneessa lennämme kohteeseen. Ensimmäisellä klikkauksella vain kartta päivittyy.
     if (viimeksiValittuIcao === uusiIcao) {
         // Lento on nyt vahvistettu (käyttäjä klikkasi kaksikertaa lentökenttää lentitietokone valikossa) , joten lennämme kohdemaahan.
-        await vahvistaLento();
+        await vahvistaLento(kentta);
         viimeksiValittuIcao = null;
         document.getElementById("flight-destination").textContent = "LENTO SUORITETTU.";
         return;
@@ -181,22 +184,23 @@ async function kasitteleValinta(kentta) {
     // Huomaa, että paivitaPelaaja=0 tarkoittaa sitä, että emme lennä oikeasti kohteeseen vaan kysymme palvelimelta vain lennon tiedot (pituuden, co2 kulutus, etc.).
     const res = await fetch(`${PALVELIN_OSOITE}/Lentokentta/uusi/?pelaajanID=${pelaajanID}&uusiLentokentta=${valittuKohde}&nykySijainti=${pelaajanTiedot.location}&paivitaPelaaja=0`);
     lentoTiedot = await res.json();
+    console.log(lentoTiedot)
 
     // Piirretään viivat ja annetan lentodataa popuppia varten
-    piirraLento(lentoTiedot.koordinaatit.lahto, lentoTiedot.koordinaatit.maaranpaa, lentoTiedot);
+    piirraLento(lentoTiedot.koordinaatit.lahto, lentoTiedot.koordinaatit.maaranpaa, Object.assign({}, lentoTiedot, {lentokentta: await haeLentokentanTiedot(lentoTiedot.lentokentta_icao)}));
     document.getElementById("flight-destination").textContent = `VALINTA: ${kentta.lentokentan_nimi} (klikkaa uudelleen vahvistaaksesi)`;
 }
 
-async function vahvistaLento() {
+async function vahvistaLento(kentta) {
     // Nyt haluamme oikeasti lentää kohteeseen eli haluamme päivittää mm. lennon kulutuksen ja kohteen lentokentän tiedot tietokantaan.
-    await fetch(`${PALVELIN_OSOITE}/Lentokentta/uusi/?pelaajanID=${pelaajanID}&uusiLentokentta=${valittuKohde}&nykySijainti=${pelaajanTiedot.location}&paivitaPelaaja=1`);
+    await fetch(`${PALVELIN_OSOITE}/Lentokentta/uusi/?pelaajanID=${pelaajanID}&uusiLentokentta=${kentta.icao}&nykySijainti=${pelaajanTiedot.location}&paivitaPelaaja=1`);
     pelaajanTiedot = await haePelaajanTiedot();
     // Tämä päivittää PELAAJAN TIEDOT -elemintin uusilla tiedoille lennettyämme uuteen kenttään.
     await paivitaTilastot();
     document.getElementById("flight-destination").textContent = "LENTO SUORITETTU.";
 
     // Lennettyämme uuteen maahan tarkistamme, että sijaitseeko lentökenttä Thaimaassa, jos sijaitsee niin pelaaja voittaa.
-    const lentokentanTiedot = await haeLentokentanTiedot(valittuKohde)
+    const lentokentanTiedot = await haeLentokentanTiedot(kentta.icao)
     if (lentokentanTiedot.country_name === "Thailand") {
         voitto();
         return
@@ -207,10 +211,10 @@ async function vahvistaLento() {
     }
 
     // Nyt olemme lentäneet toiseen maahan, eikä maa ole Thaimaa, joten kysymme pelaajalta uuden kysymyksen.
-    await naytaKysymys();
+    await naytaKysymys(kentta);
 }
 
-async function naytaKysymys() {
+async function naytaKysymys(kentta) {
     // Haetaan palvelimelta satunnainen kysymys.
     const res = await fetch(`${PALVELIN_OSOITE}/kysymykset/kysymys/`);
     const data = await res.json();
@@ -232,23 +236,24 @@ async function naytaKysymys() {
         nappi.textContent = vastaus;
 
         // Pelaaja painaa valikosta vastausta. Lisätään varmuuden vuoksi tarkistaVastaus funktio jonojärjestelmäämme.
-        nappi.onclick = () => lisaaJonoon(async () => await tarkistaVastaus(vastaus, data.oikeaVastaus));
+        nappi.onclick = () => lisaaJonoon(async () => await tarkistaVastaus(vastaus, data.oikeaVastaus, kentta));
         container.appendChild(nappi);
     });
 }
 
-async function tarkistaVastaus(valittu, oikea) {
+async function tarkistaVastaus(valittu, oikea, kentta) {
     const viesti = document.getElementById("flight-destination");
 
     if (valittu === oikea) {
         // Pelaajan vastaus oli oikea haetaan pelaajan viimeisimmät tiedot ja lisätään co2 budjettin 75.
         pelaajanTiedot = await haePelaajanTiedot();
-        const uusiBudjetti = pelaajanTiedot.co2_budget + 75;
+        const oikeanVastauksenPisteet = kentta.co2Lennolta * TEHTAVA_PISTE_KERROIN
+        const uusiBudjetti = pelaajanTiedot.co2_budget + oikeanVastauksenPisteet;
 
         //console.log(pelaajanTiedot)
         // Päivitetään vielä palvelimen tietokantaan pelaajan uusi co2 budjetti.
         await fetch(`${PALVELIN_OSOITE}/PelaajanTiedot/paivita/?pelaajanID=${pelaajanID}&paivitettavaTieto=co2_budget&tiedonArvo=${uusiBudjetti}`);
-        viesti.textContent = "Oikea vastaus! Saat +75 kg CO₂ budjettia.";
+        viesti.textContent = `Oikea vastaus! Saat +${oikeanVastauksenPisteet.toFixed()} kg CO₂ budjettia.`;
         await paivitaTilastot();
         //console.log(pelaajanTiedot)
     } else {

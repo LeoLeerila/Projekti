@@ -26,7 +26,7 @@ async def lenna(maaranpaa, sijainti, paivitaPelaaja, pelaajanID):
         await tietokanta.paivitaPelaajanTiedot(pelaajanID, "km_total", math.ceil(matkanpituus + pelaajanTiedot["km_total"]))
         await tietokanta.paivitaPelaajanTiedot(pelaajanID, "time", math.ceil(kesto + pelaajanTiedot["time"]))
     #palauttaa sanakirjan matkanpituus, kesto, co2Lennolta
-    return {"matkanpituus": matkanpituus, "kesto": kesto, "co2Lennolta": co2Lennolta, "koordinaatit": {"lahto": sijaintiKoordinaatit, "maaranpaa": maaranpaaKoordinaatit}}
+    return {"matkanpituus": matkanpituus, "kesto": kesto, "co2Lennolta": co2Lennolta, "koordinaatit": {"lahto": sijaintiKoordinaatit, "maaranpaa": maaranpaaKoordinaatit}, "lentokentta_icao": maaranpaa}
 
 async def laskeLennonPituus(lahtosijainti, maanosa):
     #haetaan lähtösijainnin koordinaatit identistä
