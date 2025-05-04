@@ -1,4 +1,5 @@
 ![](images/selection.png)
+![](images/frontend.png)
 
 ```sql
 ALTER TABLE game DROP PRIMARY KEY;
