@@ -2,6 +2,8 @@
 <video controls>
   <source src="images/gameplay.mp4" type="video/mp4">
 </video>
+![](images/gameplay.mp4)
+[Gameplay](images/gameplay.mp4)
 
 # Images
 ![](images/selection.png)
