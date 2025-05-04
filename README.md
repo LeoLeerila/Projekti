@@ -1,1 +1,9 @@
 ![](images/selection.png)
+
+```sql
+ALTER TABLE game DROP PRIMARY KEY;
+
+ALTER TABLE game DROP COLUMN id;
+
+ALTER TABLE game ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+```

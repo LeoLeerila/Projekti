@@ -15,22 +15,12 @@
     <div class="chat-box terminal" id="chat">
       <div class="title">[VIESTIT - VAIMO]</div>
       <div id="chat-log" class="terminal-list">
-        <div class="viesti">> Hyvää työmatkaa rakas!</div>
       </div>
     </div>
 
     <div class="map terminal" id="world-map">
       <div class="title">[WORLD MAP]</div>
-    </div>
-
-    <div class="control-panel terminal">
-      <div class="title">[ SYSTEM MENU ]</div>
-      <div class="terminal-list"> 
-        <div class="confirm-button" onclick="lisaaJonoon(() => aloitaPeliUudestaan())">Aloita alusta</div>
-        <div class="confirm-button" onclick="kirjauduUlos()">Kirjaudu ulos</div>
-      </div>
-    </div>
-    
+    </div>    
 
     <div class="player-stats terminal">
       <div class="title">[PELAAJAN TIEDOT]</div>
@@ -40,6 +30,12 @@
       <div id="stat-distance">> Lennettymatka: ...</div>
       <div id="stat-time">> Lentoaika: ...</div>
       <div id="stat-time">> Määränpää: Thaimaa</div>
+      <br>
+      <div class="terminal-list"> 
+        <div class="confirm-button" id="logout" onclick="kirjauduUlos()">Kirjaudu ulos</div>
+        <div class="confirm-button" id="startAgain" onclick="lisaaJonoon(()=>aloitaPeliUudestaan())">Aloita alusta</div>
+        <div class="confirm-button" id="deletePlayer" onclick="poistaPelaaja()">Poista pelaaja</div>
+      </div>
     </div>
 
     <div class="player-image terminal">

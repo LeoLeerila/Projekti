@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from tietokanta import haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot, haeKaikkiPelaajat, lisaaUusiPelaaja, haeLentokentanTiedot, haePelaajanNykyinenMaa, haeMaanTiedot
+from tietokanta import haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot, haeKaikkiPelaajat, lisaaUusiPelaaja, haeLentokentanTiedot, haePelaajanNykyinenMaa, haeMaanTiedot, poistaPelaaja
 from lopetus import voitto, havio
 from kayttoliittyma import palvelinSeuraavaLentokentta
 from PeliTehtavat import palvelinKysymys
@@ -51,24 +51,19 @@ def hae():
 def nollaa():
     args = request.args
     nollaaPelaajanTiedot(args.get("pelaajanID"))
-    return f"pelaajan {args.get("pelaajanID")} tiedot päivitetty"
+    return [f"pelaajan {args.get("pelaajanID")} tiedot päivitetty"]
 
 @app.route("/PelaajanTiedot/paivita/")#http://127.0.0.1:3000/PelaajanTiedot/paivita/?pelaajanID=1&paivitettavaTieto=co2_consumed&tiedonArvo=100
 def paivita():
     args = request.args
     paivitaPelaajanTiedot(args.get("pelaajanID"), args.get("paivitettavaTieto"), args.get("tiedonArvo"))
-    return f"Pelaajan {args.get("pelaajanID")} tieto {args.get("paivitettavaTieto")} muutettu {args.get("tiedonArvo")}"
+    return [f"Pelaajan {args.get("pelaajanID")} tieto {args.get("paivitettavaTieto")} muutettu {args.get("tiedonArvo")}"]
 
-#Lopetus funktiot
-@app.route("/Lopetus/voitto/")
-def Lopetusvoitto():
-    #voitto()
-    return "Pelaaja voitti pelin"
-
-@app.route("/Lopetus/havio/")
-def Lopetushavio():
-    #havio()
-    return "Pelaaja hävisi pelin"
+@app.route("/PelaajanTiedot/poista/")#http://127.0.0.1:3000/PelaajanTiedot/poista/?pelaajanID=1
+def poista():
+    args = request.args
+    poistaPelaaja(args.get("pelaajanID"))
+    return [f"Pelaaja {args.get("pelaajanID")} on postettu kannasta."]
 
 #lentokentät
 @app.route("/Lentokentta/vaihtoehdot/")#http://127.0.0.1:3000/Lentokentta/vaihtoehdot/?pelaajanID=1

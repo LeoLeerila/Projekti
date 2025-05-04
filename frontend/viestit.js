@@ -1,6 +1,7 @@
 
 
 const greetings = [
+  "Hyvää työmatkaa rakas!",
   "NYT PE#%!#* KOTIIN SIELTÄ! 😡",
   "Jos et vastaa kohta, laitan susta ilmoituksen kadonneeksi. Ja ehkä Tinderiin. 😉",
   "Mä en ole katkera, mä olen katkeran mestari. 🍋",

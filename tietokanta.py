@@ -40,6 +40,14 @@ def lisaaUusiPelaaja(nimi):
     kursori.execute(sql, (nimi,))
     return kursori.lastrowid
 
+def poistaPelaaja(pelaajanId):
+    """
+    Poistaa pelaajan tietokannasta annetulla pelaajan ID:llä.
+    """
+    sql = "DELETE FROM game WHERE id = %s"
+    kursori.execute(sql, (pelaajanId,))
+
+
 def haePelaajanTiedot(pelaajanId):
     #haetut pelaajan arvot ovat järjestykseesä
     #id, co2_consumed, co2_budget, location, screen_name, time
