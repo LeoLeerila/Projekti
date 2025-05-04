@@ -8,6 +8,8 @@ let valittuKohde, lentoTiedot, viimeksiValittuIcao;
 const TEHTAVA_PISTE_KERROIN = 2; // Okeasta vastauksesta co2-budjetin lisä pisteet lasketaan kaavalla: lennon co2 kulutus * TEHTAVA_PISTE_KERROIN
 
 // Jonojärjestelmä varmistaa, että vain yksi tehtävä suoritetaan kerrallaan, jottei backend ruuhkaannu.
+// Veikkaan, että backend kaatuu sen takia koska tietokantaan tulee päällekäisiä kyselyitä.
+// Viisainta olisi tehdä jonkunlainen queue backendiin, mutta tällä lähdettiin liikkeelle, eikä aikaa ole enään tehdä niin suuria muutoksia + tämä toimii mainiosti.
 let onVarattu = false;
 const pyyntoJono = [];
 
