@@ -1,6 +1,7 @@
 inquirer
 mysql-connector-python==8.0.29
-pychalk
 flask_cors
 flask
 flask[sync]
+geopy
+pychalk

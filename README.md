@@ -28,10 +28,19 @@ GRANT ALL PRIVILEGES ON flight_game_projekti.* TO 'pelaaja'@localhost IDENTIFIED
 ```shell
 mariadb --host="127.0.0.1" --port=3306 --user=pelaaja --password=pelaajansalasana flight_game_projekti < projekti.sql
 ```
+Muuta kantaa hieman:
+```sql
+ALTER TABLE game DROP PRIMARY KEY;
+
+ALTER TABLE game DROP COLUMN id;
+
+ALTER TABLE game ADD COLUMN id INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+```
+
 
 #### Lataa python moduulit
 ```shell
-pip -i requirements.txt
+pip install -r requirements.txt
 ```
 
 #### Käynnistä palvelin
@@ -45,3 +54,6 @@ Avaa frontend/index.html -tiedosto tai:
 py -m http.server 5500
 ```
 ja mene osoitteeseen http://localhost:5500/frontend/
+
+
+
