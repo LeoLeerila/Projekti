@@ -149,7 +149,9 @@ async function haeLentokenttaVaihtoehdot() {
     const vaihtoehdot = document.getElementById('flight-options');
     vaihtoehdot.innerHTML = "";
     // Sortataan lentokentät co2 kulutuksenmukaan niin että lentotietokoneessa lentokentät näkyvät vähiten kuluttavat matkat ensin.
-    lentokenttaLista.sort((a, b) => a.co2Lennolta - b.co2Lennolta);
+    console.log(lentokenttaLista)
+    lentokenttaLista.sort((a, b) => a.maa.localeCompare(b.maa));
+    console.log(lentokenttaLista)
     lentokenttaLista.forEach(kentta => {
         const nappi = document.createElement('button');
         nappi.className = "confirm-button";
@@ -197,6 +199,7 @@ async function vahvistaLento() {
     const lentokentanTiedot = await haeLentokentanTiedot(valittuKohde)
     if (lentokentanTiedot.country_name === "Thailand") {
         voitto();
+        return
     } else if (pelaajanTiedot.co2_consumed >= pelaajanTiedot.co2_budget) {
         // Varmuuden vuoksi tarkistamme myös ettei pelaaja ole ylittänyt co2 budjettia.
         // Tämän pitäisi olla mahdotonta tässä kohtaa, sillä peli logiikan ei anna pelaajan ylittää co2 budjettia koskaan, mutta jos niin sattuu käymään niin tämä estää sen.
@@ -296,7 +299,7 @@ function voitto() {
     const kysymys = document.getElementById('terminal-question');
     kysymys.innerHTML = "";
     const kysymysEl = document.createElement("div");
-    kysymysEl.textContent = `> BANGKOK SAAVUTETTU. TEHTÄVÄ SUORITETTU.`;
+    kysymysEl.textContent = `> THAIMAA SAAVUTETTU. TEHTÄVÄ SUORITETTU.`;
     kysymysEl.className = "terminal-input";
     kysymys.appendChild(kysymysEl);
 
@@ -312,7 +315,7 @@ function voitto() {
         📵 Vaimolle ei vielä soiteta. Ei tarvitse huolestuttaa.
 
         "One night in Bangkok and the world's your oyster."
-        - Some guy in the 80s
+        - Joku äijä 80-luvulla
     `
 
     container.appendChild(gameLost)
