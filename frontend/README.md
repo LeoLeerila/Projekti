@@ -1,3 +1,5 @@
+# Frontend
+
 1. Käyttäjä avaa ```index.html``` tiedoston, josta hänet ohjataan kirjautumaan ```authenticaiton.html``` tiedostoon
 2. Käyttäjä valitsee tai tekee uuden pelaajan/profiilin, jonka jälkeen hänet ohjataan ```game.html``` tiedostoon. Osoitteeseen myös lisätään parametri ```user```, jonka arvo on käyttäjän valitseman tai tekemän pelaajan id.
     ```javascript
