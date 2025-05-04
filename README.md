@@ -25,6 +25,23 @@ USE flight_game_projekti;
 GRANT ALL PRIVILEGES ON flight_game_projekti.* TO 'pelaaja'@localhost IDENTIFIED BY 'pelaajansalasana';
 ```
 #### Lataa tietokantaan pelin data
-```powershell
+```shell
 mariadb --host="127.0.0.1" --port=3306 --user=pelaaja --password=pelaajansalasana flight_game_projekti < projekti.sql
 ```
+
+#### Lataa python moduulit
+```shell
+pip -i requirements.txt
+```
+
+#### Käynnistä palvelin
+```shell
+py palvelin.py
+```
+
+#### Avaa frontend
+Avaa frontend/index.html -tiedosto tai:
+``` shell
+py -m http.server 5500
+```
+ja mene osoitteeseen http://localhost:5500/frontend/
