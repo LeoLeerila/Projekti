@@ -58,7 +58,7 @@ async function haePelaajanTiedot() {
     if (!res.ok) throw new Error("Pelaajan tietojen haku epäonnistui.");
     const json = await res.json()
 
-    console.log(json)
+    //console.log(json)
     return json;
 }
 
@@ -155,7 +155,7 @@ async function haeLentokenttaVaihtoehdot() {
         nappi.className = "confirm-button";
         nappi.textContent = kentta.lentokentan_nimi + ` [${kentta.maa}]`;
         // Seuraavaksi käsittelemme käyttäjän valinnan
-        nappi.onclick = () => lisaaJonoon(() => kasitteleValinta(kentta));
+        nappi.onclick = () => lisaaJonoon(async () => await kasitteleValinta(kentta));
         vaihtoehdot.appendChild(nappi);
     });
 }
@@ -229,7 +229,7 @@ async function naytaKysymys() {
         nappi.textContent = vastaus;
 
         // Pelaaja painaa valikosta vastausta. Lisätään varmuuden vuoksi tarkistaVastaus funktio jonojärjestelmäämme.
-        nappi.onclick = () => lisaaJonoon(() => tarkistaVastaus(vastaus, data.oikeaVastaus));
+        nappi.onclick = () => lisaaJonoon(async () => await tarkistaVastaus(vastaus, data.oikeaVastaus));
         container.appendChild(nappi);
     });
 }
@@ -242,15 +242,18 @@ async function tarkistaVastaus(valittu, oikea) {
         pelaajanTiedot = await haePelaajanTiedot();
         const uusiBudjetti = pelaajanTiedot.co2_budget + 75;
 
+        //console.log(pelaajanTiedot)
         // Päivitetään vielä palvelimen tietokantaan pelaajan uusi co2 budjetti.
         await fetch(`${PALVELIN_OSOITE}/PelaajanTiedot/paivita/?pelaajanID=${pelaajanID}&paivitettavaTieto=co2_budget&tiedonArvo=${uusiBudjetti}`);
         viesti.textContent = "Oikea vastaus! Saat +75 kg CO₂ budjettia.";
+        await paivitaTilastot();
+        //console.log(pelaajanTiedot)
     } else {
         viesti.textContent = "Väärä vastaus. Yritä uudelleen seuraavassa kohteessa.";
     }
 
     //pelaajanTiedot = await haePelaajanTiedot();
-    //await paivitaTilastot();
+    
     await haeLentokenttaVaihtoehdot();
 }
 

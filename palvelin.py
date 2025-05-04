@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from tietokanta import haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot, haeKaikkiPelaajat, lisaaUusiPelaaja, haeLentokentanTiedot, haePelaajanNykyinenMaa, haeMaanTiedot, poistaPelaaja
-from lopetus import voitto, havio
+from tietokanta import Tietokanta
+# haePelaajanTiedot, nollaaPelaajanTiedot, paivitaPelaajanTiedot, haeKaikkiPelaajat, lisaaUusiPelaaja, haeLentokentanTiedot, haePelaajanNykyinenMaa, haeMaanTiedot, poistaPelaaja
 from kayttoliittyma import palvelinSeuraavaLentokentta
 from PeliTehtavat import palvelinKysymys
 from lentokone import lenna
@@ -11,18 +11,20 @@ app = Flask(__name__)
 
 cors = CORS(app)
 
+tietokanta = Tietokanta()
+
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 #Tietokannan funktiot
 @app.route("/Pelaajat/kaikki/")
-def kaikki_pelaajat():
+async def kaikki_pelaajat():
     """
     Palauttaa JSON-listan kaikista olemassa olevista pelaajista.
     """
-    return jsonify(haeKaikkiPelaajat())
+    return jsonify(await tietokanta.haeKaikkiPelaajat())
 
 @app.route("/Pelaajat/uusi/")
-def uusi_pelaaja():
+async def uusi_pelaaja():
     """
     Luo uusi pelaajaprofiili annetulla nimellä (nimi-parametri).
     Esim: /Pelaajat/uusi/?nimi=Testi
@@ -33,57 +35,57 @@ def uusi_pelaaja():
         return "Nimi puuttuu", 400
 
     try:
-        uusi_id = lisaaUusiPelaaja(nimi)
+        uusi_id = await tietokanta.lisaaUusiPelaaja(nimi)
         return jsonify({"status": "OK", "id": uusi_id, "nimi": nimi})
     except Exception as e:
         return jsonify({"status": "ERROR", "message": str(e)}), 500
     
 @app.route("/PelaajanTiedot/hae/")#http://127.0.0.1:3000/PelaajanTiedot/hae/?pelaajanID=1
-def hae():
+async def hae():
     args = request.args
-    vastaus = haePelaajanTiedot(args.get("pelaajanID"))
-    sijainti = haePelaajanNykyinenMaa(vastaus["location"])
+    vastaus = await tietokanta.haePelaajanTiedot(args.get("pelaajanID"))
+    sijainti = await tietokanta.haePelaajanNykyinenMaa(vastaus["location"])
 
     # | mergaa kaksi sanakirjaa yhteen
     return vastaus | {"country_name":sijainti}
 
 @app.route("/PelaajanTiedot/nollaa/")#http://127.0.0.1:3000/PelaajanTiedot/nollaa/?pelaajanID=1
-def nollaa():
+async def nollaa():
     args = request.args
-    nollaaPelaajanTiedot(args.get("pelaajanID"))
+    await tietokanta.nollaaPelaajanTiedot(args.get("pelaajanID"))
     return [f"pelaajan {args.get("pelaajanID")} tiedot päivitetty"]
 
 @app.route("/PelaajanTiedot/paivita/")#http://127.0.0.1:3000/PelaajanTiedot/paivita/?pelaajanID=1&paivitettavaTieto=co2_consumed&tiedonArvo=100
-def paivita():
+async def paivita():
     args = request.args
-    paivitaPelaajanTiedot(args.get("pelaajanID"), args.get("paivitettavaTieto"), args.get("tiedonArvo"))
+    await tietokanta.paivitaPelaajanTiedot(args.get("pelaajanID"), args.get("paivitettavaTieto"), args.get("tiedonArvo"))
     return [f"Pelaajan {args.get("pelaajanID")} tieto {args.get("paivitettavaTieto")} muutettu {args.get("tiedonArvo")}"]
 
 @app.route("/PelaajanTiedot/poista/")#http://127.0.0.1:3000/PelaajanTiedot/poista/?pelaajanID=1
-def poista():
+async def poista():
     args = request.args
-    poistaPelaaja(args.get("pelaajanID"))
+    await tietokanta.poistaPelaaja(args.get("pelaajanID"))
     return [f"Pelaaja {args.get("pelaajanID")} on postettu kannasta."]
 
 #lentokentät
 @app.route("/Lentokentta/vaihtoehdot/")#http://127.0.0.1:3000/Lentokentta/vaihtoehdot/?pelaajanID=1
-def vaihtoehdot():
+async def vaihtoehdot():
     args = request.args
-    vastaus = palvelinSeuraavaLentokentta(args.get("pelaajanID"))
+    vastaus = await palvelinSeuraavaLentokentta(args.get("pelaajanID"))
     return vastaus
 
 @app.route("/Lentokentta/uusi/")#http://127.0.0.1:3000/Lentokentta/uusi/?pelaajanID=1&uusiLentokentta=ICAO&nykySijainti=ICAO&paivitaPelaaja=1
-def uusi():
+async def uusi():
     args = request.args
 
-    vastaus = lenna(args.get("uusiLentokentta"), args.get("nykySijainti"), int(args.get("paivitaPelaaja")), args.get("pelaajanID"))
+    vastaus = await lenna(args.get("uusiLentokentta"), args.get("nykySijainti"), int(args.get("paivitaPelaaja")), args.get("pelaajanID"))
     return vastaus
 
 @app.route("/Lentokentta/tiedot/")#http://127.0.0.1:3000/Lentokentta/tiedot/?icao=EFHK
-def tiedot():
+async def tiedot():
     args = request.args
-    vastaus = haeLentokentanTiedot("*", "ident", args.get("icao"))
-    sijainti = haeMaanTiedot("name", "iso_country", vastaus[8])[0][0]
+    vastaus = await tietokanta.haeLentokentanTiedot("*", "ident", args.get("icao"))
+    sijainti = await tietokanta.haeMaanTiedot("name", "iso_country", vastaus[8])
 
     json = {
         "id": vastaus[0],
@@ -111,8 +113,8 @@ def tiedot():
 
 #kysymykset
 @app.route("/kysymykset/kysymys/")#http://127.0.0.1:3000/kysymykset/kysymys/
-def kysymys():
-    return palvelinKysymys()
+async def kysymys():
+    return await palvelinKysymys()
 
 
 
