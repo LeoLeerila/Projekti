@@ -245,7 +245,7 @@ async function tarkistaVastaus(valittu, oikea, kentta) {
     const viesti = document.getElementById("flight-destination");
 
     if (valittu === oikea) {
-        // Pelaajan vastaus oli oikea haetaan pelaajan viimeisimmät tiedot ja lisätään co2 budjettin 75.
+        // Pelaajan vastaus oli oikea haetaan pelaajan viimeisimmät tiedot ja lasketaan uusi co2-budjetti.
         pelaajanTiedot = await haePelaajanTiedot();
         const oikeanVastauksenPisteet = kentta.co2Lennolta * TEHTAVA_PISTE_KERROIN
         const uusiBudjetti = pelaajanTiedot.co2_budget + oikeanVastauksenPisteet;
@@ -262,6 +262,7 @@ async function tarkistaVastaus(valittu, oikea, kentta) {
 
     //pelaajanTiedot = await haePelaajanTiedot();
     
+    // Tässä kohtaan pelilooppi alkaa uudestaan.
     await haeLentokenttaVaihtoehdot();
 }
 
