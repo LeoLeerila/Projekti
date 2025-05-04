@@ -1,6 +1,13 @@
+# Gameplay
+<video controls>
+  <source src="images/gameplay.mp4" type="video/mp4">
+</video>
+
+# Images
 ![](images/selection.png)
 ![](images/login.png)
 ![](images/frontend.png)
+![](images/gamplay.mp4)
 
 ```sql
 ALTER TABLE game DROP PRIMARY KEY;
