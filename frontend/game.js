@@ -1,4 +1,7 @@
-const PALVELIN_OSOITE = "http://127.0.0.1:3000";
+const PALVELIN_OSOITE = "http://81.175.222.63:3000";
+//localhost 127.0.0.1
+//palvelin 81.175.222.63
+
 
 let pelaajanID;
 let pelaajanTiedot;
